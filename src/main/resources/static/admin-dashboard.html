@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrator Console – ScholarConnect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <!-- Top Gov Bar -->
+    <div class="gov-topbar">
+        <div class="container-fluid px-4 d-flex justify-content-between align-items-center">
+            <div><i class="bi bi-shield-lock-fill text-warning me-1"></i> ScholarConnect Central Administrative Authority Console</div>
+            <div class="d-none d-md-flex gap-3">
+                <span><i class="bi bi-clock me-1"></i> System Active</span>
+                <span>|</span>
+                <span class="text-warning fw-semibold"><i class="bi bi-shield-check"></i> Administrator Clearance</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg portal-navbar">
+        <div class="container-fluid px-4">
+            <button class="btn btn-outline-light d-lg-none me-2" id="sidebarToggler" type="button">
+                <i class="bi bi-list"></i>
+            </button>
+            <a class="navbar-brand me-auto" href="index.html">
+                <div class="brand-icon" style="background: linear-gradient(135deg, #1e3a8a, #dc2626);"><i class="bi bi-shield-lock-fill"></i></div>
+                <div>
+                    <span class="d-block brand-title">ScholarConnect</span>
+                    <small style="font-size: 0.68rem; color: #fca5a5; font-weight: 500;">ADMINISTRATION CONSOLE</small>
+                </div>
+            </a>
+
+            <div class="dropdown">
+                <button class="btn btn-outline-light dropdown-toggle d-flex align-items-center gap-2 py-1 px-3" type="button" data-bs-toggle="dropdown">
+                    <span class="avatar-circle" style="width: 32px; height: 32px; font-size: 0.9rem; background: #dc2626;" id="navAvatar">A</span>
+                    <span id="navAdminName" class="d-none d-sm-inline">Administrator</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end shadow">
+                    <li><span class="dropdown-item-text text-muted small" id="navRole">ROLE_ADMIN</span></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="admin-scholarships.html"><i class="bi bi-mortarboard me-2"></i> Manage Scholarships</a></li>
+                    <li><a class="dropdown-item" href="admin-applications.html"><i class="bi bi-file-earmark-check me-2"></i> Manage Applications</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger" href="javascript:void(0)" onclick="Auth.logout()"><i class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="dashboard-wrapper">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-user">
+                    <div class="avatar-circle" style="background: #dc2626;" id="sidebarAvatar">A</div>
+                    <div style="overflow: hidden;">
+                        <h6 class="mb-0 fw-bold text-truncate" id="sidebarName">Admin Authority</h6>
+                        <small class="text-danger fw-semibold" style="font-size: 0.75rem;">Central Administrator</small>
+                    </div>
+                </div>
+            </div>
+
+            <ul class="sidebar-menu">
+                <li><a href="admin-dashboard.html" class="sidebar-link active"><i class="bi bi-speedometer2"></i> Executive Dashboard</a></li>
+                <li><a href="admin-scholarships.html" class="sidebar-link"><i class="bi bi-mortarboard"></i> Scholarship Schemes</a></li>
+                <li><a href="admin-applications.html" class="sidebar-link"><i class="bi bi-file-earmark-check"></i> Application Registry</a></li>
+                <li><a href="index.html" class="sidebar-link"><i class="bi bi-globe"></i> Public Portal View</a></li>
+                <li class="mt-4"><hr class="my-2 text-muted"></li>
+                <li><a href="javascript:void(0)" onclick="Auth.logout()" class="sidebar-link text-danger"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="dashboard-main">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+                <div>
+                    <h3 class="fw-bold mb-1">Administrative Overview & Analytics</h3>
+                    <p class="text-secondary small mb-0">System-wide performance, student onboarding metrics, and application audit analytics</p>
+                </div>
+                <div class="d-flex gap-2">
+                    <a href="admin-scholarships.html" class="btn btn-outline-primary btn-sm"><i class="bi bi-plus-circle me-1"></i> Add Scholarship</a>
+                    <a href="admin-applications.html" class="btn btn-primary-gov btn-sm"><i class="bi bi-folder-check me-1"></i> Review Applications</a>
+                </div>
+            </div>
+
+            <!-- 7 Summary Cards Grid -->
+            <div class="row g-3 mb-4">
+                <div class="col-sm-6 col-xl-3 col-lg-4">
+                    <div class="stat-card">
+                        <div class="stat-icon primary"><i class="bi bi-people-fill"></i></div>
+                        <div>
+                            <h3 class="stat-value" id="statTotalStudents">0</h3>
+                            <p class="stat-label">Registered Students</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-xl-3 col-lg-4">
+                    <div class="stat-card">
+                        <div class="stat-icon teal"><i class="bi bi-mortarboard-fill"></i></div>
+                        <div>
+                            <h3 class="stat-value" id="statTotalScholarships">0</h3>
+                            <p class="stat-label">Scholarship Schemes</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-xl-3 col-lg-4">
+                    <div class="stat-card">
+                        <div class="stat-icon primary"><i class="bi bi-files"></i></div>
+                        <div>
+                            <h3 class="stat-value" id="statTotalApps">0</h3>
+                            <p class="stat-label">Total Submissions</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-xl-3 col-lg-4">
+                    <div class="stat-card">
+                        <div class="stat-icon warning"><i class="bi bi-clock-history"></i></div>
+                        <div>
+                            <h3 class="stat-value" id="statPendingApps">0</h3>
+                            <p class="stat-label">Pending Initial Review</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-xl-4 col-lg-4">
+                    <div class="stat-card">
+                        <div class="stat-icon warning" style="background: #ede9fe; color: #6d28d9;"><i class="bi bi-search"></i></div>
+                        <div>
+                            <h3 class="stat-value" id="statUnderReview">0</h3>
+                            <p class="stat-label">Under Scrutiny / Verification</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-xl-4 col-lg-4">
+                    <div class="stat-card">
+                        <div class="stat-icon success"><i class="bi bi-check-circle-fill"></i></div>
+                        <div>
+                            <h3 class="stat-value" id="statApproved">0</h3>
+                            <p class="stat-label">Approved & Disbursed</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-xl-4 col-lg-4">
+                    <div class="stat-card">
+                        <div class="stat-icon danger"><i class="bi bi-x-circle-fill"></i></div>
+                        <div>
+                            <h3 class="stat-value" id="statRejected">0</h3>
+                            <p class="stat-label">Rejected Submissions</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chart.js Visualizations (4 Charts) -->
+            <div class="row g-4 mb-4">
+                <!-- 1. Applications by Status (Doughnut) -->
+                <div class="col-lg-6 col-xl-3">
+                    <div class="card-custom h-100">
+                        <h6 class="fw-bold mb-3 d-flex justify-content-between align-items-center">
+                            <span>Status Distribution</span>
+                            <i class="bi bi-pie-chart text-muted"></i>
+                        </h6>
+                        <div style="position: relative; height: 220px;">
+                            <canvas id="chartStatus"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Monthly Applications Trend (Bar) -->
+                <div class="col-lg-6 col-xl-5">
+                    <div class="card-custom h-100">
+                        <h6 class="fw-bold mb-3 d-flex justify-content-between align-items-center">
+                            <span>Monthly Applications Influx</span>
+                            <i class="bi bi-bar-chart-line text-muted"></i>
+                        </h6>
+                        <div style="position: relative; height: 220px;">
+                            <canvas id="chartMonthly"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Category Distribution (Pie) -->
+                <div class="col-lg-6 col-xl-4">
+                    <div class="card-custom h-100">
+                        <h6 class="fw-bold mb-3 d-flex justify-content-between align-items-center">
+                            <span>Student Category Diversity</span>
+                            <i class="bi bi-person-lines-fill text-muted"></i>
+                        </h6>
+                        <div style="position: relative; height: 220px;">
+                            <canvas id="chartCategory"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Scholarship-wise Applications (Bar) -->
+                <div class="col-12">
+                    <div class="card-custom">
+                        <h6 class="fw-bold mb-3 d-flex justify-content-between align-items-center">
+                            <span>Scheme-Wise Application Volume</span>
+                            <i class="bi bi-graph-up text-muted"></i>
+                        </h6>
+                        <div style="position: relative; height: 260px;">
+                            <canvas id="chartScholarships"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Applications & Recent Registrations -->
+            <div class="row g-4">
+                <!-- Recent Applications -->
+                <div class="col-lg-7">
+                    <div class="card-custom h-100">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="fw-bold mb-0">Recent Applications Submitted</h5>
+                            <a href="admin-applications.html" class="small fw-semibold text-primary text-decoration-none">View Registry</a>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-portal table-sm mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Ref ID</th>
+                                        <th>Student</th>
+                                        <th>Scheme</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recentAppsBody">
+                                    <!-- Dynamic -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Registrations -->
+                <div class="col-lg-5">
+                    <div class="card-custom h-100">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="fw-bold mb-0">New Student Registrations</h5>
+                            <span class="badge bg-light text-secondary border small">Live Feed</span>
+                        </div>
+                        <div class="list-group list-group-flush small" id="recentUsersBody">
+                            <!-- Dynamic -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+
+    <script>
+        if (!Auth.requireAuth(['ROLE_ADMIN'])) {
+            // Handled
+        }
+
+        async function loadAdminDashboard() {
+            try {
+                const user = Auth.getUser();
+                if (user) {
+                    document.getElementById('navAdminName').textContent = user.fullName;
+                    document.getElementById('sidebarName').textContent = user.fullName;
+                }
+
+                const res = await API.get('/admin/dashboard');
+                const data = res.data;
+
+                // Numbers
+                document.getElementById('statTotalStudents').textContent = data.totalStudents;
+                document.getElementById('statTotalScholarships').textContent = data.totalScholarships;
+                document.getElementById('statTotalApps').textContent = data.totalApplications;
+                document.getElementById('statPendingApps').textContent = data.pendingApplications;
+                document.getElementById('statUnderReview').textContent = data.applicationsUnderReview;
+                document.getElementById('statApproved').textContent = data.approvedApplications;
+                document.getElementById('statRejected').textContent = data.rejectedApplications;
+
+                // Charts
+                renderStatusChart(data.applicationsByStatus || {});
+                renderMonthlyChart(data.monthlyApplications || {});
+                renderCategoryChart(data.categoryWiseDistribution || {});
+                renderScholarshipWiseChart(data.scholarshipWiseApplications || {});
+
+                // Recent applications
+                renderRecentApplications(data.recentApplications || []);
+
+                // Recent users
+                renderRecentUsers(data.recentRegistrations || []);
+
+            } catch (err) {
+                console.error(err);
+                UI.showToast(err.message || 'Error loading administrator dashboard', 'error');
+            }
+        }
+
+        function renderStatusChart(data) {
+            const ctx = document.getElementById('chartStatus').getContext('2d');
+            const labels = Object.keys(data);
+            const values = Object.values(data);
+
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: labels.map(l => l.replace(/_/g, ' ')),
+                    datasets: [{
+                        data: values,
+                        backgroundColor: ['#94A3B8', '#2563EB', '#F59E0B', '#8B5CF6', '#10B981', '#EF4444', '#F97316'],
+                        borderWidth: 2,
+                        borderColor: '#FFFFFF'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } }
+                    },
+                    cutout: '65%'
+                }
+            });
+        }
+
+        function renderMonthlyChart(data) {
+            const ctx = document.getElementById('chartMonthly').getContext('2d');
+            const labels = Object.keys(data).length > 0 ? Object.keys(data) : ['Jan 2026', 'Feb 2026', 'Mar 2026'];
+            const values = Object.values(data).length > 0 ? Object.values(data) : [3, 5, 2];
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Applications',
+                        data: values,
+                        backgroundColor: '#2563EB',
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, ticks: { precision: 0 } }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        function renderCategoryChart(data) {
+            const ctx = document.getElementById('chartCategory').getContext('2d');
+            const labels = Object.keys(data);
+            const values = Object.values(data);
+
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: values,
+                        backgroundColor: ['#2563EB', '#14B8A6', '#F59E0B', '#EF4444', '#8B5CF6', '#10B981'],
+                        borderWidth: 2,
+                        borderColor: '#FFFFFF'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } }
+                    }
+                }
+            });
+        }
+
+        function renderScholarshipWiseChart(data) {
+            const ctx = document.getElementById('chartScholarships').getContext('2d');
+            const labels = Object.keys(data);
+            const values = Object.values(data);
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels.map(l => l.length > 25 ? l.substring(0, 25) + '...' : l),
+                    datasets: [{
+                        label: 'Applicants',
+                        data: values,
+                        backgroundColor: '#14B8A6',
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, ticks: { precision: 0 } }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        function renderRecentApplications(apps) {
+            const tbody = document.getElementById('recentAppsBody');
+            if (apps.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="text-center text-muted py-3">No applications logged yet.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = apps.map(a => `
+                <tr>
+                    <td class="fw-semibold text-primary">${a.applicationReference}</td>
+                    <td>
+                        <div class="fw-semibold text-dark">${a.studentName}</div>
+                        <small class="text-muted">${a.studentEmail}</small>
+                    </td>
+                    <td class="text-truncate" style="max-width: 160px;">${a.scholarshipName}</td>
+                    <td><span class="badge-status badge-${a.status}" style="font-size: 0.7rem; padding: 2px 6px;">${a.status}</span></td>
+                    <td>
+                        <a href="admin-applications.html?search=${a.applicationReference}" class="btn btn-sm btn-outline-primary py-0">Review</a>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function renderRecentUsers(users) {
+            const container = document.getElementById('recentUsersBody');
+            if (users.length === 0) {
+                container.innerHTML = `<div class="p-3 text-muted text-center">No student registrations found.</div>`;
+                return;
+            }
+
+            container.innerHTML = users.map(u => `
+                <div class="list-group-item d-flex justify-content-between align-items-center px-0">
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="avatar-circle" style="width: 32px; height: 32px; font-size: 0.85rem;">${u.fullName.charAt(0)}</div>
+                        <div>
+                            <div class="fw-bold text-dark">${u.fullName}</div>
+                            <small class="text-muted">${u.collegeName || u.email}</small>
+                        </div>
+                    </div>
+                    <span class="badge bg-light text-secondary border">${u.category || 'General'}</span>
+                </div>
+            `).join('');
+        }
+
+        document.addEventListener('DOMContentLoaded', loadAdminDashboard);
+    </script>
+</body>
+</html>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration – ScholarConnect Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-light">
+
+    <!-- Top Gov Bar -->
+    <div class="gov-topbar">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div><i class="bi bi-shield-check text-warning me-1"></i> ScholarConnect Student Onboarding Portal</div>
+            <a href="index.html" class="text-white text-decoration-none small"><i class="bi bi-arrow-left"></i> Back to Homepage</a>
+        </div>
+    </div>
+
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="text-center mb-4">
+                    <a href="index.html" class="d-inline-flex align-items-center gap-2 text-decoration-none">
+                        <div class="brand-icon" style="width: 44px; height: 44px;"><i class="bi bi-mortarboard-fill fs-4"></i></div>
+                        <span class="fs-3 fw-bold text-dark">ScholarConnect</span>
+                    </a>
+                    <h4 class="fw-bold text-dark mt-2 mb-1">New Student Registration</h4>
+                    <p class="text-secondary small">Create your student profile to discover and apply for national scholarship schemes</p>
+                </div>
+
+                <div class="card shadow-sm border-0 rounded-4 p-4 p-md-5 bg-white">
+                    <div id="registerAlert" class="alert alert-danger d-none" role="alert"></div>
+
+                    <form id="registerForm">
+                        <!-- Section 1: Account Information -->
+                        <h5 class="fw-bold text-primary mb-3 pb-2 border-bottom"><i class="bi bi-person-fill me-2"></i> Account Details</h5>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small">Full Name (As per official records) <span class="text-danger">*</span></label>
+                                <input type="text" id="fullName" class="form-control" placeholder="e.g. Ramesh Kumar" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small">Email Address <span class="text-danger">*</span></label>
+                                <input type="email" id="email" class="form-control" placeholder="name@example.com" required>
+                                <small class="text-muted" style="font-size: 0.75rem;">All updates & OTPs will be sent here</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small">Mobile Number (10 Digits) <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light">+91</span>
+                                    <input type="tel" id="mobileNumber" class="form-control" placeholder="9876543210" pattern="[0-9]{10}" maxlength="10" required>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-semibold small">Date of Birth <span class="text-danger">*</span></label>
+                                <input type="date" id="dateOfBirth" class="form-control" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-semibold small">Gender <span class="text-danger">*</span></label>
+                                <select id="gender" class="form-select" required>
+                                    <option value="">Select Gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small">Password <span class="text-danger">*</span></label>
+                                <input type="password" id="password" class="form-control" placeholder="Minimum 6 characters" minlength="6" required>
+                                <div class="progress mt-2" style="height: 4px;">
+                                    <div id="passwordStrengthBar" class="progress-bar bg-danger" role="progressbar" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small">Confirm Password <span class="text-danger">*</span></label>
+                                <input type="password" id="confirmPassword" class="form-control" placeholder="Re-enter password" minlength="6" required>
+                            </div>
+                        </div>
+
+                        <!-- Section 2: Domicile & Category -->
+                        <h5 class="fw-bold text-primary mb-3 pb-2 border-bottom"><i class="bi bi-geo-alt-fill me-2"></i> Domicile & Social Category</h5>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold small">Social Category <span class="text-danger">*</span></label>
+                                <select id="category" class="form-select" required>
+                                    <option value="General">General / Open</option>
+                                    <option value="OBC">OBC (Other Backward Class)</option>
+                                    <option value="SC">SC (Scheduled Caste)</option>
+                                    <option value="ST">ST (Scheduled Tribe)</option>
+                                    <option value="EWS">EWS (Economically Weaker Section)</option>
+                                    <option value="Minority">Minority Community</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold small">Domicile State <span class="text-danger">*</span></label>
+                                <select id="state" class="form-select" required>
+                                    <option value="">Select State</option>
+                                    <option value="Maharashtra">Maharashtra</option>
+                                    <option value="Gujarat">Gujarat</option>
+                                    <option value="Delhi">Delhi</option>
+                                    <option value="Karnataka">Karnataka</option>
+                                    <option value="Tamil Nadu">Tamil Nadu</option>
+                                    <option value="Telangana">Telangana</option>
+                                    <option value="Rajasthan">Rajasthan</option>
+                                    <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                    <option value="Assam">Assam</option>
+                                    <option value="West Bengal">West Bengal</option>
+                                    <option value="Kerala">Kerala</option>
+                                    <option value="Other">Other State / UT</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold small">District <span class="text-danger">*</span></label>
+                                <input type="text" id="district" class="form-control" placeholder="e.g. Pune, Jaipur" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-semibold small">Permanent Residential Address</label>
+                                <textarea id="address" class="form-control" rows="2" placeholder="Full postal address with pincode"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Section 3: Academic & Financial Details -->
+                        <h5 class="fw-bold text-primary mb-3 pb-2 border-bottom"><i class="bi bi-book-half me-2"></i> Academic & Financial Standing</h5>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small">College / Institute Name <span class="text-danger">*</span></label>
+                                <input type="text" id="collegeName" class="form-control" placeholder="e.g. College of Engineering Pune" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small">Affiliated University / Board</label>
+                                <input type="text" id="universityName" class="form-control" placeholder="e.g. SPPU University">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold small">Current Course / Degree <span class="text-danger">*</span></label>
+                                <input type="text" id="course" class="form-control" placeholder="e.g. B.Tech Computer Engineering" required>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label fw-semibold small">Current Year <span class="text-danger">*</span></label>
+                                <select id="currentYear" class="form-select" required>
+                                    <option value="1">1st Year</option>
+                                    <option value="2">2nd Year</option>
+                                    <option value="3" selected>3rd Year</option>
+                                    <option value="4">4th Year</option>
+                                    <option value="5">5th Year</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-semibold small">Academic Percentage (%) <span class="text-danger">*</span></label>
+                                <input type="number" id="academicPercentage" class="form-control" placeholder="e.g. 84.50" step="0.01" min="0" max="100" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-semibold small">Annual Family Income (₹) <span class="text-danger">*</span></label>
+                                <input type="number" id="annualFamilyIncome" class="form-control" placeholder="e.g. 350000" min="0" required>
+                            </div>
+                        </div>
+
+                        <!-- Consent & Declaration -->
+                        <div class="form-check mb-4 p-3 bg-light rounded-3 border">
+                            <input class="form-check-input ms-0 me-2" type="checkbox" id="declaration" required>
+                            <label class="form-check-label small text-secondary" for="declaration">
+                                I hereby certify that the information entered above is correct and matches my government certificates. I agree to the terms of the ScholarConnect National Portal.
+                            </label>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a href="login.html" class="text-decoration-none small text-secondary"><i class="bi bi-arrow-left"></i> Already registered? Sign in</a>
+                            <button type="submit" id="registerBtn" class="btn btn-primary-gov px-4 py-2 fw-semibold">
+                                <span id="btnText">Complete Registration</span>
+                                <span id="btnSpinner" class="spinner-border spinner-border-sm d-none" role="status"></span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+
+    <script>
+        // Password strength meter
+        document.getElementById('password').addEventListener('input', function() {
+            const val = this.value;
+            const bar = document.getElementById('passwordStrengthBar');
+            let score = 0;
+            if (val.length >= 6) score += 30;
+            if (val.length >= 8) score += 30;
+            if (/[0-9]/.test(val)) score += 20;
+            if (/[^A-Za-z0-9]/.test(val)) score += 20;
+
+            bar.style.width = score + '%';
+            if (score < 40) bar.className = 'progress-bar bg-danger';
+            else if (score < 80) bar.className = 'progress-bar bg-warning';
+            else bar.className = 'progress-bar bg-success';
+        });
+
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const alertEl = document.getElementById('registerAlert');
+            alertEl.classList.add('d-none');
+
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (password !== confirmPassword) {
+                alertEl.textContent = 'Passwords do not match. Please re-enter.';
+                alertEl.classList.remove('d-none');
+                return;
+            }
+
+            const payload = {
+                fullName: document.getElementById('fullName').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                mobileNumber: document.getElementById('mobileNumber').value.trim(),
+                password: password,
+                confirmPassword: confirmPassword,
+                dateOfBirth: document.getElementById('dateOfBirth').value,
+                gender: document.getElementById('gender').value,
+                category: document.getElementById('category').value,
+                state: document.getElementById('state').value,
+                district: document.getElementById('district').value.trim(),
+                collegeName: document.getElementById('collegeName').value.trim(),
+                universityName: document.getElementById('universityName').value.trim(),
+                course: document.getElementById('course').value.trim(),
+                currentYear: parseInt(document.getElementById('currentYear').value),
+                academicPercentage: parseFloat(document.getElementById('academicPercentage').value),
+                annualFamilyIncome: parseFloat(document.getElementById('annualFamilyIncome').value),
+                address: document.getElementById('address').value.trim()
+            };
+
+            const btn = document.getElementById('registerBtn');
+            const text = document.getElementById('btnText');
+            const spinner = document.getElementById('btnSpinner');
+
+            btn.disabled = true;
+            text.classList.add('d-none');
+            spinner.classList.remove('d-none');
+
+            try {
+                const response = await API.post('/auth/register', payload);
+                if (response.success && response.data) {
+                    Auth.setAuth(response.data, true);
+                    UI.showToast('Registration successful! Redirecting to student dashboard...', 'success');
+                    setTimeout(() => {
+                        window.location.href = 'student-dashboard.html';
+                    }, 800);
+                } else {
+                    throw new Error(response.message || 'Registration failed');
+                }
+            } catch (err) {
+                alertEl.textContent = err.message || 'Registration error. Please check your details.';
+                alertEl.classList.remove('d-none');
+                btn.disabled = false;
+                text.classList.remove('d-none');
+                spinner.classList.add('d-none');
+            }
+        });
+    </script>
+</body>
+</html>

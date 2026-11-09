@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScholarConnect – Student Scholarship Portal | Govt. of India Inspired</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Top Gov Bar -->
+    <div class="gov-topbar">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div><i class="bi bi-shield-check text-warning me-1"></i> ScholarConnect Central Academic Support System</div>
+            <div class="d-none d-md-flex gap-3">
+                <span><i class="bi bi-clock me-1"></i> Academic Year 2026-27</span>
+                <span>|</span>
+                <span><i class="bi bi-headset me-1"></i> Helpline: 1800-111-2026</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg portal-navbar sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <div class="brand-icon"><i class="bi bi-mortarboard-fill"></i></div>
+                <div>
+                    <span class="d-block brand-title" style="letter-spacing: -0.5px;">ScholarConnect</span>
+                    <small style="font-size: 0.68rem; color: #93c5fd; font-weight: 400; letter-spacing: 0.5px;">NATIONAL SCHOLARSHIP PORTAL</small>
+                </div>
+            </a>
+            <button class="navbar-toggler text-white border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                <i class="bi bi-list fs-2"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav ms-auto align-items-lg-center gap-1">
+                    <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="scholarships.html">Scholarships</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#how-it-works">How It Works</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#benefits">Benefits</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
+
+                    <!-- Guest Buttons -->
+                    <div id="authNavButtons" class="d-flex gap-2 ms-lg-3 mt-3 mt-lg-0">
+                        <a href="login.html" class="btn btn-outline-light btn-sm px-3 py-2 fw-semibold">Login</a>
+                        <a href="register.html" class="btn btn-teal btn-sm px-3 py-2 fw-semibold">Register</a>
+                    </div>
+
+                    <!-- Logged-in Dropdown -->
+                    <div id="userDropdownNav" class="dropdown ms-lg-3 mt-3 mt-lg-0 d-none">
+                        <button class="btn btn-outline-light dropdown-toggle d-flex align-items-center gap-2 py-1 px-3" type="button" data-bs-toggle="dropdown">
+                            <span class="avatar-circle" style="width: 30px; height: 30px; font-size: 0.85rem;" id="navUserAvatar">U</span>
+                            <span id="navUserName">User</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow">
+                            <li><span class="dropdown-item-text text-muted small" id="navUserRole">ROLE</span></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" id="navDashboardLink" href="student-dashboard.html"><i class="bi bi-speedometer2 me-2"></i> Dashboard</a></li>
+                            <li><a class="dropdown-item text-danger" href="javascript:void(0)" onclick="Auth.logout()"><i class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
+                        </ul>
+                    </div>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-section">
+        <div class="container">
+            <div class="row align-items-center gy-5">
+                <div class="col-lg-7">
+                    <div class="hero-stats-badge">
+                        <i class="bi bi-stars text-warning"></i> Sanctioned Funding for Deserving Scholars Across India
+                    </div>
+                    <h1 class="display-4 fw-bold mb-3 text-white">Your Education. Your Opportunity. Your Future.</h1>
+                    <p class="lead text-light mb-4 opacity-90" style="font-size: 1.15rem; line-height: 1.6;">
+                        Discover scholarships, apply with confidence, and track your educational funding journey. Powered by automated eligibility verification and direct student support.
+                    </p>
+                    <div class="d-flex flex-wrap gap-3">
+                        <a href="scholarships.html" class="btn btn-teal btn-lg px-4 py-3 fw-bold">
+                            <i class="bi bi-search me-2"></i> Explore Scholarships
+                        </a>
+                        <a href="register.html" class="btn btn-outline-light btn-lg px-4 py-3 fw-bold">
+                            <i class="bi bi-person-plus-fill me-2"></i> Student Registration
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="card bg-white text-dark shadow-lg border-0 rounded-4 p-4">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="stat-icon primary"><i class="bi bi-calculator"></i></div>
+                            <div>
+                                <h5 class="mb-0 fw-bold">Quick Eligibility Check</h5>
+                                <small class="text-secondary">Evaluate criteria before applying</small>
+                            </div>
+                        </div>
+                        <p class="text-muted small">Our automated rules check your academic percentile, state domicile, and income threshold directly against active national schemes.</p>
+                        <div class="bg-light p-3 rounded-3 mb-3 border">
+                            <div class="d-flex justify-content-between mb-1 small fw-semibold">
+                                <span>Active Schemes</span> <span class="text-primary" id="heroActiveCount">10 Available</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-1 small fw-semibold">
+                                <span>Highest Award</span> <span class="text-success">₹1,20,000 / Year</span>
+                            </div>
+                            <div class="d-flex justify-content-between small fw-semibold">
+                                <span>Direct Benefit</span> <span class="text-info">Bank Account Transfer</span>
+                            </div>
+                        </div>
+                        <a href="scholarships.html" class="btn btn-primary-gov w-100 fw-semibold">Browse All Schemes <i class="bi bi-arrow-right ms-1"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Key Metrics Banner -->
+    <section class="py-4 bg-white border-bottom shadow-sm">
+        <div class="container">
+            <div class="row text-center gy-3">
+                <div class="col-6 col-md-3 border-end">
+                    <h3 class="fw-bold text-primary mb-0" id="statScholarships">10+</h3>
+                    <small class="text-secondary fw-semibold">Active Scholarships</small>
+                </div>
+                <div class="col-6 col-md-3 border-end">
+                    <h3 class="fw-bold text-success mb-0">₹15.8 Cr</h3>
+                    <small class="text-secondary fw-semibold">Annual Allocation</small>
+                </div>
+                <div class="col-6 col-md-3 border-end">
+                    <h3 class="fw-bold text-primary mb-0">100%</h3>
+                    <small class="text-secondary fw-semibold">Digital Verification</small>
+                </div>
+                <div class="col-6 col-md-3">
+                    <h3 class="fw-bold text-warning mb-0">24/7</h3>
+                    <small class="text-secondary fw-semibold">Application Tracking</small>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Scholarships -->
+    <section class="py-5">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-end mb-4">
+                <div>
+                    <span class="badge bg-primary text-white mb-2 px-3 py-2">Flagship Opportunities</span>
+                    <h2 class="fw-bold mb-1">Featured Scholarships</h2>
+                    <p class="text-secondary mb-0">Explore premier central and philanthropic schemes open for application</p>
+                </div>
+                <a href="scholarships.html" class="btn btn-outline-gov fw-semibold d-none d-md-inline-block">View All Schemes <i class="bi bi-arrow-right"></i></a>
+            </div>
+
+            <div class="row g-4" id="featuredContainer">
+                <div class="col-12 text-center py-5">
+                    <div class="spinner-border text-primary" role="status"></div>
+                    <p class="text-muted mt-2">Loading active schemes...</p>
+                </div>
+            </div>
+
+            <div class="text-center mt-4 d-md-none">
+                <a href="scholarships.html" class="btn btn-outline-gov w-100 fw-semibold">View All Schemes <i class="bi bi-arrow-right"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works" class="py-5 bg-white border-top border-bottom">
+        <div class="container">
+            <div class="text-center max-w-700 mx-auto mb-5">
+                <span class="badge bg-teal text-white mb-2 px-3 py-2" style="background-color: var(--accent-teal);">Simple 4-Step Process</span>
+                <h2 class="fw-bold">How ScholarConnect Works</h2>
+                <p class="text-secondary">Streamlined digital submission with transparent multi-stage review</p>
+            </div>
+
+            <div class="row g-4 text-center">
+                <div class="col-md-3">
+                    <div class="p-4 rounded-4 border bg-light h-100">
+                        <div class="stat-icon primary mx-auto mb-3"><i class="bi bi-person-badge"></i></div>
+                        <h5 class="fw-bold mb-2">1. Register Profile</h5>
+                        <p class="text-muted small mb-0">Sign up with your academic score, category, institution, and income details.</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="p-4 rounded-4 border bg-light h-100">
+                        <div class="stat-icon teal mx-auto mb-3"><i class="bi bi-patch-check"></i></div>
+                        <h5 class="fw-bold mb-2">2. Check Eligibility</h5>
+                        <p class="text-muted small mb-0">Automated verification immediately tells you if you qualify and explains conditions.</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="p-4 rounded-4 border bg-light h-100">
+                        <div class="stat-icon warning mx-auto mb-3"><i class="bi bi-file-earmark-arrow-up"></i></div>
+                        <h5 class="fw-bold mb-2">3. Apply & Upload</h5>
+                        <p class="text-muted small mb-0">Upload Aadhaar, marksheet, income proof, and bonafide securely in PDF/PNG format.</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="p-4 rounded-4 border bg-light h-100">
+                        <div class="stat-icon success mx-auto mb-3"><i class="bi bi-shield-lock-fill"></i></div>
+                        <h5 class="fw-bold mb-2">4. Review & Disbursal</h5>
+                        <p class="text-muted small mb-0">Reviewers verify records, administrators sanction awards, and you track every milestone.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section id="benefits" class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Why Choose ScholarConnect?</h2>
+                <p class="text-secondary">Engineered to bring transparency, speed, and equity to student financial support</p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="card-custom h-100">
+                        <div class="stat-icon primary mb-3"><i class="bi bi-cpu"></i></div>
+                        <h5 class="fw-bold">Rule-Based Engine</h5>
+                        <p class="text-secondary small">Real-time matching algorithms compare your marks, category, and domicile with zero manual bias.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card-custom h-100">
+                        <div class="stat-icon teal mb-3"><i class="bi bi-file-lock2"></i></div>
+                        <h5 class="fw-bold">Secure Document Vault</h5>
+                        <p class="text-secondary small">Confidential documents are authenticated, cryptographically isolated, and safeguarded with strict RBAC.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card-custom h-100">
+                        <div class="stat-icon warning mb-3"><i class="bi bi-bell-fill"></i></div>
+                        <h5 class="fw-bold">Live Status Tracking</h5>
+                        <p class="text-secondary small">Instant SMS and portal notifications for every step: Under Review, Verification, or Sanction.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card-custom h-100">
+                        <div class="stat-icon success mb-3"><i class="bi bi-shield-shaded"></i></div>
+                        <h5 class="fw-bold">Three-Tier RBAC</h5>
+                        <p class="text-secondary small">Independent operational roles for Students, Scrutiny Reviewers, and System Administrators.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Accordion -->
+    <section id="faq" class="py-5 bg-white border-top">
+        <div class="container">
+            <div class="text-center max-w-700 mx-auto mb-5">
+                <h2 class="fw-bold">Frequently Asked Questions</h2>
+                <p class="text-secondary">Answers to common queries regarding registration, eligibility, and document submission</p>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="accordion shadow-sm" id="faqAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                    Can I apply for more than one scholarship?
+                                </button>
+                            </h2>
+                            <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body text-secondary">
+                                    Yes. You can apply for any scholarship for which your profile satisfies the stated eligibility conditions. However, duplicate active applications for the same scheme are prevented by the system.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                    What file types and sizes are supported for document upload?
+                                </button>
+                            </h2>
+                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body text-secondary">
+                                    ScholarConnect accepts PDF, JPG, and PNG documents up to 10 MB per file. Please ensure documents like Bonafide certificates contain clear institution seals.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                    How does the automatic eligibility engine work?
+                                </button>
+                            </h2>
+                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body text-secondary">
+                                    The eligibility engine inspects your verified percentage, household annual income, caste/social category, state domicile, and course of study against the scholarship's criteria, giving you a detailed pass/fail breakdown.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                    What happens if a reviewer requests additional information?
+                                </button>
+                            </h2>
+                            <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body text-secondary">
+                                    Your application status will change to <code>ADDITIONAL_INFORMATION_REQUIRED</code> and you will receive a notification with the reviewer's instructions. You can view the tracking page to re-upload the requested certificate.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="portal-footer">
+        <div class="container">
+            <div class="row g-4 mb-4">
+                <div class="col-lg-4">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <div class="brand-icon" style="width: 36px; height: 36px; font-size: 1.1rem;"><i class="bi bi-mortarboard-fill"></i></div>
+                        <span class="fs-5 fw-bold text-white">ScholarConnect</span>
+                    </div>
+                    <p class="small text-secondary mb-3">
+                        ScholarConnect is a national student scholarship management portal built for academic demonstration, bridging meritorious students with financial opportunities.
+                    </p>
+                    <div class="small text-muted">A B.Tech Academic Capstone Project Demo.</div>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h6 class="text-white fw-bold mb-3">Quick Links</h6>
+                    <ul class="list-unstyled small d-flex flex-column gap-2">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="scholarships.html">All Scholarships</a></li>
+                        <li><a href="login.html">Student Login</a></li>
+                        <li><a href="register.html">New Registration</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <h6 class="text-white fw-bold mb-3">Portal Governance</h6>
+                    <ul class="list-unstyled small d-flex flex-column gap-2">
+                        <li><a href="login.html">Reviewer Portal</a></li>
+                        <li><a href="login.html">Administrator Console</a></li>
+                        <li><a href="#how-it-works">Guidelines & Rules</a></li>
+                        <li><a href="#faq">Helpdesk Support</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3">
+                    <h6 class="text-white fw-bold mb-3">Helpdesk & Contact</h6>
+                    <p class="small text-secondary mb-2"><i class="bi bi-geo-alt-fill me-2 text-warning"></i> National Informatics Centre, New Delhi</p>
+                    <p class="small text-secondary mb-2"><i class="bi bi-telephone-fill me-2 text-info"></i> Toll-Free: 1800-111-2026</p>
+                    <p class="small text-secondary mb-0"><i class="bi bi-envelope-fill me-2 text-primary"></i> support@scholarconnect.gov.in</p>
+                </div>
+            </div>
+            <div class="pt-3 border-top border-secondary text-center small text-secondary">
+                &copy; 2026 ScholarConnect Portal. Built with Spring Boot 3 & Bootstrap 5. All demo records are for academic evaluation purposes.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+
+    <script>
+        async function loadFeatured() {
+            try {
+                const res = await API.get('/scholarships');
+                const list = res.data || [];
+                const container = document.getElementById('featuredContainer');
+
+                if (list.length === 0) {
+                    container.innerHTML = `<div class="col-12 text-center text-muted">No active scholarships available at the moment.</div>`;
+                    return;
+                }
+
+                document.getElementById('statScholarships').textContent = list.length + '+';
+                document.getElementById('heroActiveCount').textContent = list.length + ' Available';
+
+                // Render top 3 featured
+                const featured = list.slice(0, 3);
+                container.innerHTML = featured.map(s => `
+                    <div class="col-md-4">
+                        <div class="card-custom h-100 d-flex flex-column">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <span class="badge bg-light text-primary border">${s.educationLevel || 'Undergraduate'}</span>
+                                <span class="badge bg-success-subtle text-success border border-success-subtle"><i class="bi bi-clock me-1"></i> ${s.daysLeft} days left</span>
+                            </div>
+                            <h5 class="fw-bold text-dark mt-2 mb-1">${s.scholarshipName}</h5>
+                            <small class="text-secondary mb-3 d-block"><i class="bi bi-building me-1"></i> ${s.provider}</small>
+                            <p class="text-muted small flex-grow-1" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">${s.description}</p>
+                            <div class="bg-light p-3 rounded-3 mb-3 border">
+                                <div class="d-flex justify-content-between small mb-1">
+                                    <span class="text-muted">Benefit Amount:</span>
+                                    <span class="fw-bold text-primary">${UI.formatCurrency(s.amount)}</span>
+                                </div>
+                                <div class="d-flex justify-content-between small">
+                                    <span class="text-muted">Min. Percentage:</span>
+                                    <span class="fw-bold">${s.minimumPercentage}%</span>
+                                </div>
+                            </div>
+                            <div class="d-flex gap-2 mt-auto">
+                                <a href="scholarship-details.html?id=${s.id}" class="btn btn-outline-gov btn-sm flex-fill">Details</a>
+                                <a href="apply.html?scholarshipId=${s.id}" class="btn btn-primary-gov btn-sm flex-fill">Apply Now</a>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (err) {
+                console.error(err);
+                document.getElementById('featuredContainer').innerHTML = `
+                    <div class="col-12 text-center text-danger">Failed to load scholarships. Ensure backend server is running.</div>
+                `;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadFeatured);
+    </script>
+</body>
+</html>

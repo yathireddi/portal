@@ -1,0 +1,477 @@
+{
+  "info": {
+    "_postman_id": "scholarconnect-api-collection-2026",
+    "name": "ScholarConnect REST API Collection",
+    "description": "Comprehensive Postman collection for ScholarConnect - Student Scholarship Portal covering Auth, RBAC, Eligibility Engine, Applications, Document Management, Reviewer, and Admin APIs.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080/api",
+      "type": "string"
+    },
+    {
+      "key": "studentToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "adminToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "reviewerToken",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Authentication",
+      "item": [
+        {
+          "name": "Login - Student (Rahul)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.data && jsonData.data.token) {",
+                  "    pm.collectionVariables.set('studentToken', jsonData.data.token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"rahul.sharma@example.com\",\n  \"password\": \"Student@123\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+          }
+        },
+        {
+          "name": "Login - Admin",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.data && jsonData.data.token) {",
+                  "    pm.collectionVariables.set('adminToken', jsonData.data.token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@scholarconnect.gov.in\",\n  \"password\": \"Admin@123\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+          }
+        },
+        {
+          "name": "Login - Reviewer (Dr. Arvinder)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.data && jsonData.data.token) {",
+                  "    pm.collectionVariables.set('reviewerToken', jsonData.data.token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"reviewer1@scholarconnect.gov.in\",\n  \"password\": \"Reviewer@123\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+          }
+        },
+        {
+          "name": "Register New Student",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Kavita Iyer\",\n  \"email\": \"kavita.iyer@example.com\",\n  \"mobileNumber\": \"9876543299\",\n  \"password\": \"Student@123\",\n  \"confirmPassword\": \"Student@123\",\n  \"dateOfBirth\": \"2004-09-18\",\n  \"gender\": \"Female\",\n  \"category\": \"General\",\n  \"state\": \"Maharashtra\",\n  \"district\": \"Mumbai\",\n  \"collegeName\": \"VJTI Mumbai\",\n  \"universityName\": \"Mumbai University\",\n  \"course\": \"B.Tech Information Technology\",\n  \"currentYear\": 3,\n  \"academicPercentage\": 87.20,\n  \"annualFamilyIncome\": 340000,\n  \"address\": \"Matunga, Mumbai 400019\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/register", "host": ["{{baseUrl}}"], "path": ["auth", "register"] }
+          }
+        },
+        {
+          "name": "Get Current Authenticated User",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{studentToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/auth/me", "host": ["{{baseUrl}}"], "path": ["auth", "me"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Scholarships Directory",
+      "item": [
+        {
+          "name": "Get All Active Scholarships",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/scholarships", "host": ["{{baseUrl}}"], "path": ["scholarships"] }
+          }
+        },
+        {
+          "name": "Filter Scholarships (Category & State)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/scholarships?category=General&state=Maharashtra&level=Undergraduate",
+              "host": ["{{baseUrl}}"],
+              "path": ["scholarships"],
+              "query": [
+                { "key": "category", "value": "General" },
+                { "key": "state", "value": "Maharashtra" },
+                { "key": "level", "value": "Undergraduate" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Search Scholarships by Keyword",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/scholarships/search?q=merit",
+              "host": ["{{baseUrl}}"],
+              "path": ["scholarships", "search"],
+              "query": [{ "key": "q", "value": "merit" }]
+            }
+          }
+        },
+        {
+          "name": "Get Scholarship By ID",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/scholarships/1", "host": ["{{baseUrl}}"], "path": ["scholarships", "1"] }
+          }
+        },
+        {
+          "name": "Evaluate Automatic Eligibility",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{studentToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/scholarships/1/eligibility", "host": ["{{baseUrl}}"], "path": ["scholarships", "1", "eligibility"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Student Operations",
+      "item": [
+        {
+          "name": "Get Student Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{studentToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/student/profile", "host": ["{{baseUrl}}"], "path": ["student", "profile"] }
+          }
+        },
+        {
+          "name": "Update Student Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{studentToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Rahul Sharma\",\n  \"mobileNumber\": \"9876543220\",\n  \"dateOfBirth\": \"2004-03-14\",\n  \"gender\": \"Male\",\n  \"category\": \"General\",\n  \"state\": \"Maharashtra\",\n  \"district\": \"Pune\",\n  \"collegeName\": \"COEP Technological University\",\n  \"universityName\": \"SPPU Pune\",\n  \"course\": \"B.Tech Computer Engineering\",\n  \"currentYear\": 3,\n  \"academicPercentage\": 85.50,\n  \"annualFamilyIncome\": 420000,\n  \"address\": \"Shivajinagar, Pune 411005\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/student/profile", "host": ["{{baseUrl}}"], "path": ["student", "profile"] }
+          }
+        },
+        {
+          "name": "Get Student Dashboard Summary",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{studentToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/student/dashboard", "host": ["{{baseUrl}}"], "path": ["student", "dashboard"] }
+          }
+        },
+        {
+          "name": "Get Student Applications",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{studentToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/student/applications", "host": ["{{baseUrl}}"], "path": ["student", "applications"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Applications Workflow",
+      "item": [
+        {
+          "name": "Submit Scholarship Application",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{studentToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"scholarshipId\": 7,\n  \"collegeName\": \"COEP Technological University\",\n  \"course\": \"B.Tech Computer Engineering\",\n  \"currentYear\": 3,\n  \"academicPercentage\": 85.50,\n  \"annualFamilyIncome\": 420000,\n  \"address\": \"Pune, Maharashtra\",\n  \"remarks\": \"Submitted application for Reliance Foundation Fellowship.\",\n  \"declarationAccepted\": true\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/applications", "host": ["{{baseUrl}}"], "path": ["applications"] }
+          }
+        },
+        {
+          "name": "Get My Applications List",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{studentToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/applications/my", "host": ["{{baseUrl}}"], "path": ["applications", "my"] }
+          }
+        },
+        {
+          "name": "Get Application Details By ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{studentToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/applications/1", "host": ["{{baseUrl}}"], "path": ["applications", "1"] }
+          }
+        },
+        {
+          "name": "Get Application Live Tracking & Milestones",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{studentToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/applications/1/tracking", "host": ["{{baseUrl}}"], "path": ["applications", "1", "tracking"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Document Management",
+      "item": [
+        {
+          "name": "Download / View Authenticated Document",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{studentToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/documents/1", "host": ["{{baseUrl}}"], "path": ["documents", "1"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "6. Administration Desk",
+      "item": [
+        {
+          "name": "Get Admin Executive Dashboard & Analytics",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/admin/dashboard", "host": ["{{baseUrl}}"], "path": ["admin", "dashboard"] }
+          }
+        },
+        {
+          "name": "Get All Registered Users",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/admin/users", "host": ["{{baseUrl}}"], "path": ["admin", "users"] }
+          }
+        },
+        {
+          "name": "Get All Applications (Filtered)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/admin/applications", "host": ["{{baseUrl}}"], "path": ["admin", "applications"] }
+          }
+        },
+        {
+          "name": "Assign Application to Reviewer",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reviewerId\": 2\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/admin/applications/1/assign-reviewer", "host": ["{{baseUrl}}"], "path": ["admin", "applications", "1", "assign-reviewer"] }
+          }
+        },
+        {
+          "name": "Update Application Status (Approve/Reject/Action)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"APPROVED\",\n  \"comments\": \"Sanction approved after committee document verification.\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/admin/applications/1/status", "host": ["{{baseUrl}}"], "path": ["admin", "applications", "1", "status"] }
+          }
+        },
+        {
+          "name": "Create New Scholarship Scheme",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"scholarshipName\": \"Post-Graduate Fellowship for Women Scientists\",\n  \"provider\": \"Department of Science & Technology\",\n  \"description\": \"Fellowship dedicated to fostering female research fellows in physical, chemical, and computing disciplines.\",\n  \"amount\": 85000.00,\n  \"minimumPercentage\": 70.00,\n  \"maximumFamilyIncome\": 800000.00,\n  \"eligibleCategories\": \"ALL\",\n  \"eligibleStates\": \"ALL\",\n  \"eligibleCourses\": \"M.Sc,M.Tech,Ph.D\",\n  \"educationLevel\": \"Postgraduate\",\n  \"applicationStartDate\": \"2026-03-01\",\n  \"applicationDeadline\": \"2026-12-31\",\n  \"status\": \"ACTIVE\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/admin/scholarships", "host": ["{{baseUrl}}"], "path": ["admin", "scholarships"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "7. Reviewer Workspace",
+      "item": [
+        {
+          "name": "Get Reviewer Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{reviewerToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/reviewer/dashboard", "host": ["{{baseUrl}}"], "path": ["reviewer", "dashboard"] }
+          }
+        },
+        {
+          "name": "Get Assigned Applications",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{reviewerToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/reviewer/applications", "host": ["{{baseUrl}}"], "path": ["reviewer", "applications"] }
+          }
+        },
+        {
+          "name": "Verify Document Status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{reviewerToken}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/reviewer/documents/1/verify?status=VERIFIED",
+              "host": ["{{baseUrl}}"],
+              "path": ["reviewer", "documents", "1", "verify"],
+              "query": [{ "key": "status", "value": "VERIFIED" }]
+            }
+          }
+        },
+        {
+          "name": "Submit Review Recommendation",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{reviewerToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"recommendation\": \"RECOMMEND_APPROVAL\",\n  \"comments\": \"Academic percentage and caste certificate authenticated. Satisfies all scheme conditions.\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/reviewer/applications/2/review", "host": ["{{baseUrl}}"], "path": ["reviewer", "applications", "2", "review"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "8. Notifications",
+      "item": [
+        {
+          "name": "Get My Notifications",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{studentToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/notifications", "host": ["{{baseUrl}}"], "path": ["notifications"] }
+          }
+        },
+        {
+          "name": "Mark All Notifications As Read",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{studentToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/notifications/read-all", "host": ["{{baseUrl}}"], "path": ["notifications", "read-all"] }
+          }
+        }
+      ]
+    }
+  ]
+}

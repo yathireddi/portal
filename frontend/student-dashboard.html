@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard – ScholarConnect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <!-- Top Gov Bar -->
+    <div class="gov-topbar">
+        <div class="container-fluid px-4 d-flex justify-content-between align-items-center">
+            <div><i class="bi bi-shield-check text-warning me-1"></i> ScholarConnect Student Portal</div>
+            <div class="d-none d-md-flex gap-3">
+                <span id="govClock"><i class="bi bi-calendar3 me-1"></i> Academic Session 2026-27</span>
+                <span>|</span>
+                <span><i class="bi bi-telephone-inbound me-1"></i> Helpdesk: 1800-111-2026</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation Bar -->
+    <nav class="navbar navbar-expand-lg portal-navbar">
+        <div class="container-fluid px-4">
+            <button class="btn btn-outline-light d-lg-none me-2" id="sidebarToggler" type="button">
+                <i class="bi bi-list"></i>
+            </button>
+            <a class="navbar-brand me-auto" href="index.html">
+                <div class="brand-icon"><i class="bi bi-mortarboard-fill"></i></div>
+                <div>
+                    <span class="d-block brand-title">ScholarConnect</span>
+                    <small style="font-size: 0.68rem; color: #93c5fd; font-weight: 400;">STUDENT WORKSPACE</small>
+                </div>
+            </a>
+
+            <!-- Right Profile Dropdown -->
+            <div class="dropdown">
+                <button class="btn btn-outline-light dropdown-toggle d-flex align-items-center gap-2 py-1 px-3" type="button" data-bs-toggle="dropdown">
+                    <span class="avatar-circle" style="width: 32px; height: 32px; font-size: 0.9rem;" id="navAvatar">S</span>
+                    <span id="navStudentName" class="d-none d-sm-inline">Student</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end shadow">
+                    <li><span class="dropdown-item-text text-muted small" id="navRole">ROLE_STUDENT</span></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="profile.html"><i class="bi bi-person me-2"></i> My Profile</a></li>
+                    <li><a class="dropdown-item" href="my-applications.html"><i class="bi bi-folder-check me-2"></i> My Applications</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger" href="javascript:void(0)" onclick="Auth.logout()"><i class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Layout -->
+    <div class="dashboard-wrapper">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-user">
+                    <div class="avatar-circle" id="sidebarAvatar">S</div>
+                    <div style="overflow: hidden;">
+                        <h6 class="mb-0 fw-bold text-truncate" id="sidebarName">Student Name</h6>
+                        <small class="text-secondary" style="font-size: 0.75rem;">Verified Candidate</small>
+                    </div>
+                </div>
+            </div>
+
+            <ul class="sidebar-menu">
+                <li><a href="student-dashboard.html" class="sidebar-link active"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+                <li><a href="scholarships.html" class="sidebar-link"><i class="bi bi-search"></i> Browse Schemes</a></li>
+                <li><a href="my-applications.html" class="sidebar-link"><i class="bi bi-folder-check"></i> My Applications</a></li>
+                <li><a href="profile.html" class="sidebar-link"><i class="bi bi-person-gear"></i> Student Profile</a></li>
+                <li class="mt-4"><hr class="my-2 text-muted"></li>
+                <li><a href="javascript:void(0)" onclick="Auth.logout()" class="sidebar-link text-danger"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Dashboard Workspace -->
+        <main class="dashboard-main">
+            <!-- Welcome Header & Profile Completion -->
+            <div class="row align-items-center mb-4">
+                <div class="col-md-7">
+                    <h3 class="fw-bold mb-1">Welcome back, <span class="text-primary" id="studentWelcomeName">Scholar</span>!</h3>
+                    <p class="text-secondary small mb-0">Track your submitted applications, upcoming scheme deadlines, and approval notices.</p>
+                </div>
+                <div class="col-md-5 mt-3 mt-md-0">
+                    <div class="bg-white p-3 rounded-3 border shadow-sm">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span class="small fw-semibold text-secondary">Profile Completion</span>
+                            <span class="small fw-bold text-primary" id="profileCompletionText">0%</span>
+                        </div>
+                        <div class="progress" style="height: 8px;">
+                            <div id="profileProgressBar" class="progress-bar bg-primary" role="progressbar" style="width: 0%"></div>
+                        </div>
+                        <small class="text-muted d-block mt-1" style="font-size: 0.72rem;">Complete your profile to unlock auto-eligibility evaluation.</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Metric Cards (5 Cards) -->
+            <div class="row g-3 mb-4">
+                <div class="col-sm-6 col-xl-2dot4 col-lg-4">
+                    <div class="stat-card">
+                        <div class="stat-icon primary"><i class="bi bi-mortarboard"></i></div>
+                        <div>
+                            <h3 class="stat-value" id="statAvailable">0</h3>
+                            <p class="stat-label">Available Schemes</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-xl-2dot4 col-lg-4">
+                    <div class="stat-card">
+                        <div class="stat-icon teal"><i class="bi bi-send-check"></i></div>
+                        <div>
+                            <h3 class="stat-value" id="statSubmitted">0</h3>
+                            <p class="stat-label">Applications Submitted</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-xl-2dot4 col-lg-4">
+                    <div class="stat-card">
+                        <div class="stat-icon warning"><i class="bi bi-hourglass-split"></i></div>
+                        <div>
+                            <h3 class="stat-value" id="statUnderReview">0</h3>
+                            <p class="stat-label">Under Review</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-xl-2dot4 col-lg-4">
+                    <div class="stat-card">
+                        <div class="stat-icon success"><i class="bi bi-patch-check-fill"></i></div>
+                        <div>
+                            <h3 class="stat-value" id="statApproved">0</h3>
+                            <p class="stat-label">Approved & Sanctioned</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-xl-2dot4 col-lg-4">
+                    <div class="stat-card">
+                        <div class="stat-icon danger"><i class="bi bi-x-circle-fill"></i></div>
+                        <div>
+                            <h3 class="stat-value" id="statRejected">0</h3>
+                            <p class="stat-label">Rejected Applications</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Application Status Overview Chart & Recent Applications Table -->
+            <div class="row g-4 mb-4">
+                <!-- Status Chart -->
+                <div class="col-lg-4">
+                    <div class="card-custom h-100">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="fw-bold mb-0">Application Status</h5>
+                            <i class="bi bi-pie-chart text-muted"></i>
+                        </div>
+                        <div style="position: relative; height: 240px;">
+                            <canvas id="studentStatusChart"></canvas>
+                        </div>
+                        <div class="text-center mt-3 small text-muted">Real-time status breakdown of your applications</div>
+                    </div>
+                </div>
+
+                <!-- Recently Submitted Applications -->
+                <div class="col-lg-8">
+                    <div class="card-custom h-100">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <h5 class="fw-bold mb-0">Recent Applications</h5>
+                                <small class="text-secondary">Track the live progress of your scholarship submissions</small>
+                            </div>
+                            <a href="my-applications.html" class="btn btn-outline-gov btn-sm">View All</a>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-portal table-hover mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Ref. ID</th>
+                                        <th>Scholarship Scheme</th>
+                                        <th>Applied On</th>
+                                        <th>Status</th>
+                                        <th class="text-end">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recentAppsTableBody">
+                                    <tr>
+                                        <td colspan="5" class="text-center py-4 text-muted">
+                                            <div class="spinner-border spinner-border-sm text-primary" role="status"></div> Loading applications...
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recommended Schemes & Notifications -->
+            <div class="row g-4 mb-4">
+                <!-- Recommended Scholarships -->
+                <div class="col-lg-7">
+                    <div class="card-custom h-100">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <h5 class="fw-bold mb-0">Recommended for You</h5>
+                                <small class="text-secondary">Matched with your academic score and course</small>
+                            </div>
+                            <a href="scholarships.html" class="small fw-semibold text-primary text-decoration-none">Explore All</a>
+                        </div>
+
+                        <div class="row g-3" id="recommendedContainer">
+                            <!-- Injected dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notifications & Deadlines -->
+                <div class="col-lg-5">
+                    <div class="card-custom h-100">
+                        <h5 class="fw-bold mb-3 d-flex align-items-center gap-2">
+                            <i class="bi bi-bell-fill text-warning"></i> Notifications & Alerts
+                        </h5>
+                        <div id="notificationsContainer" class="d-flex flex-column gap-2 mb-4" style="max-height: 280px; overflow-y: auto;">
+                            <!-- Injected dynamically -->
+                        </div>
+
+                        <h6 class="fw-bold text-secondary small border-top pt-3 mb-2">UPCOMING CLOSING DATES</h6>
+                        <ul class="list-group list-group-flush small" id="deadlinesList">
+                            <!-- Injected dynamically -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+
+    <script>
+        // Enforce STUDENT authentication
+        if (!Auth.requireAuth(['ROLE_STUDENT', 'ROLE_ADMIN'])) {
+            // Handled in auth.js
+        }
+
+        let statusChart = null;
+
+        async function loadStudentDashboard() {
+            try {
+                const res = await API.get('/student/dashboard');
+                const data = res.data;
+
+                // User details
+                document.getElementById('studentWelcomeName').textContent = data.studentName;
+                document.getElementById('sidebarName').textContent = data.studentName;
+                document.getElementById('navStudentName').textContent = data.studentName;
+                document.getElementById('navAvatar').textContent = data.studentName.charAt(0).toUpperCase();
+                document.getElementById('sidebarAvatar').textContent = data.studentName.charAt(0).toUpperCase();
+
+                // Profile completion
+                const pct = data.profileCompletionPercentage || 0;
+                document.getElementById('profileCompletionText').textContent = pct + '%';
+                document.getElementById('profileProgressBar').style.width = pct + '%';
+
+                // Metric stats
+                document.getElementById('statAvailable').textContent = data.totalAvailableScholarships;
+                document.getElementById('statSubmitted').textContent = data.applicationsSubmitted;
+                document.getElementById('statUnderReview').textContent = data.applicationsUnderReview;
+                document.getElementById('statApproved').textContent = data.applicationsApproved;
+                document.getElementById('statRejected').textContent = data.applicationsRejected;
+
+                // Render Recent Applications Table
+                renderRecentApplications(data.recentApplications || []);
+
+                // Render Chart.js Status Chart
+                renderStatusChart(data.statusCounts || {});
+
+                // Render Recommended Scholarships
+                renderRecommended(data.recommendedScholarships || []);
+
+                // Render Notifications
+                renderNotifications(data.notifications || []);
+
+                // Render Deadlines
+                renderDeadlines(data.upcomingDeadlines || []);
+
+            } catch (err) {
+                console.error(err);
+                UI.showToast(err.message || 'Failed to load dashboard data', 'error');
+            }
+        }
+
+        function renderRecentApplications(apps) {
+            const tbody = document.getElementById('recentAppsTableBody');
+            if (apps.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="text-center py-4 text-muted">
+                            No applications submitted yet. <a href="scholarships.html" class="fw-semibold">Browse scholarships to apply</a>.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = apps.map(a => `
+                <tr>
+                    <td class="fw-semibold text-primary">${a.applicationReference}</td>
+                    <td>
+                        <div class="fw-semibold text-dark">${a.scholarshipName}</div>
+                        <small class="text-muted">${a.scholarshipProvider}</small>
+                    </td>
+                    <td>${UI.formatDate(a.applicationDate)}</td>
+                    <td><span class="badge-status badge-${a.status}">${a.status.replace(/_/g, ' ')}</span></td>
+                    <td class="text-end">
+                        <a href="track-application.html?id=${a.id}" class="btn btn-sm btn-outline-primary" title="Track Live Status">
+                            <i class="bi bi-geo-alt-fill me-1"></i> Track
+                        </a>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function renderStatusChart(statusCounts) {
+            const ctx = document.getElementById('studentStatusChart').getContext('2d');
+            const labels = Object.keys(statusCounts);
+            const values = Object.values(statusCounts);
+
+            const hasData = values.some(v => v > 0);
+
+            if (statusChart) statusChart.destroy();
+
+            statusChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: hasData ? labels : ['No Submissions'],
+                    datasets: [{
+                        data: hasData ? values : [1],
+                        backgroundColor: hasData ? [
+                            '#2563EB', '#F59E0B', '#8B5CF6', '#10B981', '#EF4444', '#F97316'
+                        ] : ['#E2E8F0'],
+                        borderWidth: 2,
+                        borderColor: '#FFFFFF'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { boxWidth: 12, font: { size: 11 } }
+                        }
+                    },
+                    cutout: '70%'
+                }
+            });
+        }
+
+        function renderRecommended(list) {
+            const container = document.getElementById('recommendedContainer');
+            if (list.length === 0) {
+                container.innerHTML = `<div class="col-12 text-muted small">No recommended schemes at this time.</div>`;
+                return;
+            }
+
+            container.innerHTML = list.map(s => `
+                <div class="col-md-6">
+                    <div class="p-3 rounded-3 border bg-light h-100 d-flex flex-column">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="badge bg-white text-primary border small">${s.educationLevel || 'Undergraduate'}</span>
+                            <span class="text-success fw-bold small">${UI.formatCurrency(s.amount)}</span>
+                        </div>
+                        <h6 class="fw-bold text-dark mt-1 mb-1">${s.scholarshipName}</h6>
+                        <small class="text-muted mb-3 flex-grow-1" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${s.description}</small>
+                        <div class="d-flex gap-2 mt-auto">
+                            <a href="scholarship-details.html?id=${s.id}" class="btn btn-sm btn-outline-secondary flex-fill">Details</a>
+                            <a href="apply.html?scholarshipId=${s.id}" class="btn btn-sm btn-primary-gov flex-fill">Apply</a>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderNotifications(notifs) {
+            const container = document.getElementById('notificationsContainer');
+            if (notifs.length === 0) {
+                container.innerHTML = `<div class="text-muted small p-2">No new notifications.</div>`;
+                return;
+            }
+
+            container.innerHTML = notifs.map(n => `
+                <div class="p-2 px-3 rounded-3 border ${n.read ? 'bg-light' : 'bg-primary-subtle border-primary-subtle'}">
+                    <div class="d-flex justify-content-between">
+                        <strong class="small text-dark">${n.title}</strong>
+                        <small class="text-muted" style="font-size: 0.72rem;">${n.timeAgo}</small>
+                    </div>
+                    <p class="mb-0 small text-secondary" style="font-size: 0.8rem;">${n.message}</p>
+                </div>
+            `).join('');
+        }
+
+        function renderDeadlines(deadlines) {
+            const ul = document.getElementById('deadlinesList');
+            if (deadlines.length === 0) {
+                ul.innerHTML = `<li class="list-group-item text-muted">No upcoming deadlines.</li>`;
+                return;
+            }
+
+            ul.innerHTML = deadlines.map(d => `
+                <li class="list-group-item px-0 d-flex justify-content-between align-items-center">
+                    <span class="text-truncate me-2" style="max-width: 220px;">${d.scholarshipName}</span>
+                    <span class="badge bg-danger-subtle text-danger border border-danger-subtle">${UI.formatDate(d.applicationDeadline)}</span>
+                </li>
+            `).join('');
+        }
+
+        document.addEventListener('DOMContentLoaded', loadStudentDashboard);
+    </script>
+</body>
+</html>

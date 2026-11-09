@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scholarship Scheme Management – ScholarConnect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Top Gov Bar -->
+    <div class="gov-topbar">
+        <div class="container-fluid px-4 d-flex justify-content-between align-items-center">
+            <div><i class="bi bi-shield-lock-fill text-warning me-1"></i> ScholarConnect Administrative Console</div>
+            <a href="admin-dashboard.html" class="text-white text-decoration-none small"><i class="bi bi-arrow-left"></i> Back to Dashboard</a>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg portal-navbar">
+        <div class="container-fluid px-4">
+            <button class="btn btn-outline-light d-lg-none me-2" id="sidebarToggler" type="button">
+                <i class="bi bi-list"></i>
+            </button>
+            <a class="navbar-brand me-auto" href="index.html">
+                <div class="brand-icon" style="background: linear-gradient(135deg, #1e3a8a, #dc2626);"><i class="bi bi-shield-lock-fill"></i></div>
+                <div>
+                    <span class="d-block brand-title">ScholarConnect</span>
+                    <small style="font-size: 0.68rem; color: #fca5a5; font-weight: 500;">SCHOLARSHIP MANAGEMENT</small>
+                </div>
+            </a>
+
+            <div class="dropdown">
+                <button class="btn btn-outline-light dropdown-toggle d-flex align-items-center gap-2 py-1 px-3" type="button" data-bs-toggle="dropdown">
+                    <span class="avatar-circle" style="width: 32px; height: 32px; font-size: 0.9rem; background: #dc2626;">A</span>
+                    <span class="d-none d-sm-inline">Admin</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end shadow">
+                    <li><a class="dropdown-item" href="admin-dashboard.html"><i class="bi bi-speedometer2 me-2"></i> Dashboard</a></li>
+                    <li><a class="dropdown-item" href="admin-applications.html"><i class="bi bi-file-earmark-check me-2"></i> Applications</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger" href="javascript:void(0)" onclick="Auth.logout()"><i class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="dashboard-wrapper">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-user">
+                    <div class="avatar-circle" style="background: #dc2626;">A</div>
+                    <div style="overflow: hidden;">
+                        <h6 class="mb-0 fw-bold text-truncate">System Admin</h6>
+                        <small class="text-danger fw-semibold" style="font-size: 0.75rem;">Central Authority</small>
+                    </div>
+                </div>
+            </div>
+
+            <ul class="sidebar-menu">
+                <li><a href="admin-dashboard.html" class="sidebar-link"><i class="bi bi-speedometer2"></i> Executive Dashboard</a></li>
+                <li><a href="admin-scholarships.html" class="sidebar-link active"><i class="bi bi-mortarboard"></i> Scholarship Schemes</a></li>
+                <li><a href="admin-applications.html" class="sidebar-link"><i class="bi bi-file-earmark-check"></i> Application Registry</a></li>
+                <li><a href="index.html" class="sidebar-link"><i class="bi bi-globe"></i> Public Portal View</a></li>
+                <li class="mt-4"><hr class="my-2 text-muted"></li>
+                <li><a href="javascript:void(0)" onclick="Auth.logout()" class="sidebar-link text-danger"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="dashboard-main">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+                <div>
+                    <h3 class="fw-bold mb-1">Scholarship Schemes Directory</h3>
+                    <p class="text-secondary small mb-0">Create, configure eligibility conditions, manage deadlines, and track applicant volume</p>
+                </div>
+                <button type="button" class="btn btn-primary-gov" onclick="openAddScholarshipModal()">
+                    <i class="bi bi-plus-circle me-1"></i> Add New Scholarship Scheme
+                </button>
+            </div>
+
+            <!-- Table Card -->
+            <div class="card-custom">
+                <div class="table-responsive">
+                    <table class="table table-portal table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>Scheme Name</th>
+                                <th>Provider</th>
+                                <th>Award Amount</th>
+                                <th>Min. %</th>
+                                <th>Income Ceiling</th>
+                                <th>Deadline</th>
+                                <th>Applicants</th>
+                                <th>Status</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="scholarshipsTableBody">
+                            <tr>
+                                <td colspan="9" class="text-center py-5 text-muted">
+                                    <div class="spinner-border spinner-border-sm text-primary" role="status"></div> Loading scholarship schemes...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scholarship Modal (Create / Edit) -->
+    <div class="modal fade" id="scholarshipModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4 shadow">
+                <div class="modal-header border-bottom">
+                    <h5 class="modal-title fw-bold" id="modalTitle">Configure Scholarship Scheme</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="scholarshipForm">
+                    <div class="modal-body p-4">
+                        <input type="hidden" id="schId">
+
+                        <div class="row g-3">
+                            <div class="col-md-8">
+                                <label class="form-label fw-semibold small">Scheme Name <span class="text-danger">*</span></label>
+                                <input type="text" id="schName" class="form-control" placeholder="e.g. National Merit Scholarship Scheme" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold small">Award Amount (₹) <span class="text-danger">*</span></label>
+                                <input type="number" id="schAmount" class="form-control" placeholder="e.g. 50000" min="1" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small">Issuing Department / Provider <span class="text-danger">*</span></label>
+                                <input type="text" id="schProvider" class="form-control" placeholder="e.g. Ministry of Education" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small">Education Level</label>
+                                <select id="schEducationLevel" class="form-select">
+                                    <option value="Undergraduate">Undergraduate</option>
+                                    <option value="Postgraduate">Postgraduate</option>
+                                    <option value="ALL">All Levels</option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-semibold small">Scheme Description & Terms <span class="text-danger">*</span></label>
+                                <textarea id="schDesc" class="form-control" rows="3" required></textarea>
+                            </div>
+
+                            <!-- Eligibility Rules -->
+                            <div class="col-12"><hr class="my-2"><h6 class="fw-bold text-primary mb-2">Automated Eligibility Rules Configuration</h6></div>
+
+                            <div class="col-md-3">
+                                <label class="form-label fw-semibold small">Min. Academic Score (%)</label>
+                                <input type="number" id="schMinPct" class="form-control" step="0.01" min="0" max="100" value="60.00" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold small">Max. Family Income (₹)</label>
+                                <input type="number" id="schMaxIncome" class="form-control" value="600000" required>
+                            </div>
+                            <div class="col-md-5">
+                                <label class="form-label fw-semibold small">Eligible Categories (Comma-separated)</label>
+                                <input type="text" id="schCategories" class="form-control" value="ALL" placeholder="ALL or General,OBC,SC,ST">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small">Eligible States (Comma-separated)</label>
+                                <input type="text" id="schStates" class="form-control" value="ALL" placeholder="ALL or Maharashtra,Delhi">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small">Eligible Courses (Comma-separated)</label>
+                                <input type="text" id="schCourses" class="form-control" value="ALL" placeholder="ALL or B.Tech,B.Sc,B.Com">
+                            </div>
+
+                            <!-- Dates & Status -->
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold small">Application Start Date</label>
+                                <input type="date" id="schStartDate" class="form-control" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold small">Closing Deadline</label>
+                                <input type="date" id="schDeadline" class="form-control" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold small">Scheme Status</label>
+                                <select id="schStatus" class="form-select">
+                                    <option value="ACTIVE">ACTIVE</option>
+                                    <option value="INACTIVE">INACTIVE</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-top">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary-gov" id="saveSchBtn">
+                            <i class="bi bi-check2-circle me-1"></i> Save Scheme
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+
+    <script>
+        if (!Auth.requireAuth(['ROLE_ADMIN'])) {
+            // Handled
+        }
+
+        let scholarshipsList = [];
+        const modal = new bootstrap.Modal(document.getElementById('scholarshipModal'));
+
+        async function loadScholarships() {
+            try {
+                const res = await API.get('/scholarships');
+                scholarshipsList = res.data || [];
+                renderTable(scholarshipsList);
+            } catch (err) {
+                console.error(err);
+                document.getElementById('scholarshipsTableBody').innerHTML = `
+                    <tr><td colspan="9" class="text-center text-danger py-4">${err.message || 'Error loading scholarships'}</td></tr>
+                `;
+            }
+        }
+
+        function renderTable(list) {
+            const tbody = document.getElementById('scholarshipsTableBody');
+            if (list.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="9" class="text-center py-4 text-muted">No scholarships configured.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = list.map(s => `
+                <tr>
+                    <td>
+                        <strong class="text-dark">${s.scholarshipName}</strong>
+                        <div class="small text-muted">${s.educationLevel || 'Undergraduate'}</div>
+                    </td>
+                    <td class="small text-secondary">${s.provider}</td>
+                    <td class="fw-bold text-success">${UI.formatCurrency(s.amount)}</td>
+                    <td>${s.minimumPercentage}%</td>
+                    <td>${s.maximumFamilyIncome >= 9000000 ? 'No Ceiling' : UI.formatCurrency(s.maximumFamilyIncome)}</td>
+                    <td class="small">${UI.formatDate(s.applicationDeadline)}</td>
+                    <td><span class="badge bg-light text-primary border">${s.applicantCount} applicants</span></td>
+                    <td><span class="badge-status badge-${s.status}">${s.status}</span></td>
+                    <td class="text-end">
+                        <button type="button" class="btn btn-sm btn-outline-primary me-1" onclick="openEditModal(${s.id})">
+                            <i class="bi bi-pencil-square"></i>
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="deleteScheme(${s.id}, '${s.scholarshipName.replace(/'/g, "\\'")}')">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function openAddScholarshipModal() {
+            document.getElementById('modalTitle').textContent = 'Create New Scholarship Scheme';
+            document.getElementById('scholarshipForm').reset();
+            document.getElementById('schId').value = '';
+
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('schStartDate').value = today;
+
+            const nextYear = new Date();
+            nextYear.setMonth(nextYear.getMonth() + 6);
+            document.getElementById('schDeadline').value = nextYear.toISOString().split('T')[0];
+
+            modal.show();
+        }
+
+        function openEditModal(id) {
+            const s = scholarshipsList.find(item => item.id === id);
+            if (!s) return;
+
+            document.getElementById('modalTitle').textContent = 'Edit Scholarship Scheme';
+            document.getElementById('schId').value = s.id;
+            document.getElementById('schName').value = s.scholarshipName;
+            document.getElementById('schAmount').value = s.amount;
+            document.getElementById('schProvider').value = s.provider;
+            document.getElementById('schEducationLevel').value = s.educationLevel || 'Undergraduate';
+            document.getElementById('schDesc').value = s.description;
+            document.getElementById('schMinPct').value = s.minimumPercentage;
+            document.getElementById('schMaxIncome').value = s.maximumFamilyIncome;
+            document.getElementById('schCategories').value = s.eligibleCategories;
+            document.getElementById('schStates').value = s.eligibleStates;
+            document.getElementById('schCourses').value = s.eligibleCourses;
+            document.getElementById('schStartDate').value = s.applicationStartDate;
+            document.getElementById('schDeadline').value = s.applicationDeadline;
+            document.getElementById('schStatus').value = s.status;
+
+            modal.show();
+        }
+
+        document.getElementById('scholarshipForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const id = document.getElementById('schId').value;
+
+            const payload = {
+                scholarshipName: document.getElementById('schName').value.trim(),
+                amount: parseFloat(document.getElementById('schAmount').value),
+                provider: document.getElementById('schProvider').value.trim(),
+                educationLevel: document.getElementById('schEducationLevel').value,
+                description: document.getElementById('schDesc').value.trim(),
+                minimumPercentage: parseFloat(document.getElementById('schMinPct').value),
+                maximumFamilyIncome: parseFloat(document.getElementById('schMaxIncome').value),
+                eligibleCategories: document.getElementById('schCategories').value.trim() || 'ALL',
+                eligibleStates: document.getElementById('schStates').value.trim() || 'ALL',
+                eligibleCourses: document.getElementById('schCourses').value.trim() || 'ALL',
+                applicationStartDate: document.getElementById('schStartDate').value,
+                applicationDeadline: document.getElementById('schDeadline').value,
+                status: document.getElementById('schStatus').value
+            };
+
+            try {
+                if (id) {
+                    await API.put(`/admin/scholarships/${id}`, payload);
+                    UI.showToast('Scholarship updated successfully', 'success');
+                } else {
+                    await API.post('/admin/scholarships', payload);
+                    UI.showToast('New scholarship created successfully', 'success');
+                }
+                modal.hide();
+                loadScholarships();
+            } catch (err) {
+                UI.showToast(err.message || 'Failed to save scholarship', 'error');
+            }
+        });
+
+        async function deleteScheme(id, name) {
+            if (!confirm(`Are you sure you want to deactivate/delete '${name}'?`)) {
+                return;
+            }
+
+            try {
+                await API.delete(`/admin/scholarships/${id}`);
+                UI.showToast('Scholarship scheme removed/deactivated', 'success');
+                loadScholarships();
+            } catch (err) {
+                UI.showToast(err.message || 'Error deleting scholarship', 'error');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadScholarships);
+    </script>
+</body>
+</html>

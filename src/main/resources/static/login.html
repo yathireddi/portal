@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login – ScholarConnect Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-light">
+
+    <!-- Top Gov Bar -->
+    <div class="gov-topbar">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div><i class="bi bi-shield-check text-warning me-1"></i> ScholarConnect Single Sign-On Portal</div>
+            <a href="index.html" class="text-white text-decoration-none small"><i class="bi bi-arrow-left"></i> Back to Homepage</a>
+        </div>
+    </div>
+
+    <div class="container py-5 my-auto">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-5">
+                <div class="text-center mb-4">
+                    <a href="index.html" class="d-inline-flex align-items-center gap-2 text-decoration-none">
+                        <div class="brand-icon" style="width: 48px; height: 48px;"><i class="bi bi-mortarboard-fill fs-4"></i></div>
+                        <span class="fs-3 fw-bold text-dark">ScholarConnect</span>
+                    </a>
+                    <p class="text-secondary small mt-1">Unified Authentication System for Students, Reviewers & Admins</p>
+                </div>
+
+                <div class="card shadow-sm border-0 rounded-4 p-4 p-md-5 bg-white">
+                    <h4 class="fw-bold text-dark mb-1">Sign In</h4>
+                    <p class="text-secondary small mb-4">Enter your credentials to access your dashboard</p>
+
+                    <div id="loginAlert" class="alert alert-danger d-none" role="alert"></div>
+
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold small">Email Address</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="bi bi-envelope"></i></span>
+                                <input type="email" id="email" class="form-control" placeholder="name@example.com" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between">
+                                <label class="form-label fw-semibold small">Password</label>
+                                <a href="javascript:void(0)" onclick="alert('For academic project demo, please use one of the one-click demo credentials below or register a new student account.')" class="small text-decoration-none text-primary">Forgot Password?</a>
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light"><i class="bi bi-key"></i></span>
+                                <input type="password" id="password" class="form-control" placeholder="••••••••" required>
+                                <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-check mb-4">
+                            <input class="form-check-input" type="checkbox" id="rememberMe" checked>
+                            <label class="form-check-label small text-secondary" for="rememberMe">
+                                Keep me signed in
+                            </label>
+                        </div>
+
+                        <button type="submit" id="loginBtn" class="btn btn-primary-gov w-100 py-2 fw-semibold">
+                            <span id="btnText">Sign In to Account</span>
+                            <span id="btnSpinner" class="spinner-border spinner-border-sm d-none" role="status"></span>
+                        </button>
+                    </form>
+
+                    <hr class="my-4">
+
+                    <!-- One-Click Demo Credentials for Evaluators -->
+                    <div class="text-center">
+                        <small class="text-muted fw-semibold d-block mb-2">QUICK DEMO LOGIN (1-Click Fill):</small>
+                        <div class="d-flex flex-wrap gap-2 justify-content-center">
+                            <button type="button" class="btn btn-sm btn-outline-primary" onclick="quickFill('rahul.sharma@example.com', 'Student@123')">
+                                <i class="bi bi-person-fill"></i> Student (Rahul)
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-danger" onclick="quickFill('admin@scholarconnect.gov.in', 'Admin@123')">
+                                <i class="bi bi-shield-fill"></i> Admin
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-success" onclick="quickFill('reviewer1@scholarconnect.gov.in', 'Reviewer@123')">
+                                <i class="bi bi-patch-check-fill"></i> Reviewer
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <span class="small text-secondary">Don't have an account?</span>
+                        <a href="register.html" class="small fw-semibold text-primary text-decoration-none ms-1">Register as Student</a>
+                    </div>
+                </div>
+
+                <div class="text-center mt-4 text-muted small">
+                    Secured with BCrypt Hashing & Role-Based Access Control (RBAC).
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+
+    <script>
+        // Redirect if already logged in
+        if (Auth.isLoggedIn()) {
+            Auth.redirectIfLoggedIn();
+        }
+
+        // Toggle password visibility
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passInput = document.getElementById('password');
+            const icon = this.querySelector('i');
+            if (passInput.type === 'password') {
+                passInput.type = 'text';
+                icon.className = 'bi bi-eye-slash';
+            } else {
+                passInput.type = 'password';
+                icon.className = 'bi bi-eye';
+            }
+        });
+
+        function quickFill(email, pass) {
+            document.getElementById('email').value = email;
+            document.getElementById('password').value = pass;
+            UI.showToast(`Loaded ${email} credentials. Click "Sign In" to proceed.`, 'info');
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const alertEl = document.getElementById('loginAlert');
+            alertEl.classList.add('d-none');
+
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+
+            const btn = document.getElementById('loginBtn');
+            const text = document.getElementById('btnText');
+            const spinner = document.getElementById('btnSpinner');
+
+            btn.disabled = true;
+            text.classList.add('d-none');
+            spinner.classList.remove('d-none');
+
+            try {
+                const response = await API.post('/auth/login', { email, password, rememberMe });
+                if (response.success && response.data) {
+                    Auth.setAuth(response.data, rememberMe);
+                    UI.showToast('Login successful! Redirecting...', 'success');
+
+                    // Check URL params for redirect
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const redirectUrl = urlParams.get('redirect');
+
+                    setTimeout(() => {
+                        if (redirectUrl) {
+                            window.location.href = redirectUrl;
+                        } else {
+                            window.location.href = Auth.getDashboardUrl(response.data.role);
+                        }
+                    }, 500);
+                } else {
+                    throw new Error(response.message || 'Login failed');
+                }
+            } catch (err) {
+                alertEl.textContent = err.message || 'Invalid email or password. Please try again.';
+                alertEl.classList.remove('d-none');
+                btn.disabled = false;
+                text.classList.remove('d-none');
+                spinner.classList.add('d-none');
+            }
+        });
+    </script>
+</body>
+</html>

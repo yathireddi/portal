@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Applications – ScholarConnect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Top Gov Bar -->
+    <div class="gov-topbar">
+        <div class="container-fluid px-4 d-flex justify-content-between align-items-center">
+            <div><i class="bi bi-shield-check text-warning me-1"></i> ScholarConnect Student Portal</div>
+            <a href="student-dashboard.html" class="text-white text-decoration-none small"><i class="bi bi-arrow-left"></i> Back to Dashboard</a>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg portal-navbar">
+        <div class="container-fluid px-4">
+            <button class="btn btn-outline-light d-lg-none me-2" id="sidebarToggler" type="button">
+                <i class="bi bi-list"></i>
+            </button>
+            <a class="navbar-brand me-auto" href="index.html">
+                <div class="brand-icon"><i class="bi bi-mortarboard-fill"></i></div>
+                <div>
+                    <span class="d-block brand-title">ScholarConnect</span>
+                    <small style="font-size: 0.68rem; color: #93c5fd; font-weight: 400;">STUDENT WORKSPACE</small>
+                </div>
+            </a>
+
+            <div class="dropdown">
+                <button class="btn btn-outline-light dropdown-toggle d-flex align-items-center gap-2 py-1 px-3" type="button" data-bs-toggle="dropdown">
+                    <span class="avatar-circle" style="width: 32px; height: 32px; font-size: 0.9rem;" id="navAvatar">S</span>
+                    <span id="navStudentName" class="d-none d-sm-inline">Student</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end shadow">
+                    <li><span class="dropdown-item-text text-muted small" id="navRole">ROLE_STUDENT</span></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="profile.html"><i class="bi bi-person me-2"></i> My Profile</a></li>
+                    <li><a class="dropdown-item" href="student-dashboard.html"><i class="bi bi-speedometer2 me-2"></i> Dashboard</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger" href="javascript:void(0)" onclick="Auth.logout()"><i class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="dashboard-wrapper">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-user">
+                    <div class="avatar-circle" id="sidebarAvatar">S</div>
+                    <div style="overflow: hidden;">
+                        <h6 class="mb-0 fw-bold text-truncate" id="sidebarName">Student Name</h6>
+                        <small class="text-secondary" style="font-size: 0.75rem;">Verified Candidate</small>
+                    </div>
+                </div>
+            </div>
+
+            <ul class="sidebar-menu">
+                <li><a href="student-dashboard.html" class="sidebar-link"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+                <li><a href="scholarships.html" class="sidebar-link"><i class="bi bi-search"></i> Browse Schemes</a></li>
+                <li><a href="my-applications.html" class="sidebar-link active"><i class="bi bi-folder-check"></i> My Applications</a></li>
+                <li><a href="profile.html" class="sidebar-link"><i class="bi bi-person-gear"></i> Student Profile</a></li>
+                <li class="mt-4"><hr class="my-2 text-muted"></li>
+                <li><a href="javascript:void(0)" onclick="Auth.logout()" class="sidebar-link text-danger"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="dashboard-main">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+                <div>
+                    <h3 class="fw-bold mb-1">My Scholarship Applications</h3>
+                    <p class="text-secondary small mb-0">Review status, scrutiny remarks, and verification timelines for your submissions</p>
+                </div>
+                <a href="scholarships.html" class="btn btn-primary-gov">
+                    <i class="bi bi-plus-circle me-1"></i> Apply for New Scheme
+                </a>
+            </div>
+
+            <!-- Filters -->
+            <div class="card shadow-sm border-0 rounded-4 p-3 mb-4 bg-white">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="bi bi-search"></i></span>
+                            <input type="text" id="appSearch" class="form-control" placeholder="Search by reference ID or scheme name...">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <select id="statusFilter" class="form-select">
+                            <option value="">All Statuses</option>
+                            <option value="SUBMITTED">Submitted</option>
+                            <option value="UNDER_REVIEW">Under Review</option>
+                            <option value="DOCUMENT_VERIFICATION">Document Verification</option>
+                            <option value="APPROVED">Approved / Sanctioned</option>
+                            <option value="REJECTED">Rejected</option>
+                            <option value="ADDITIONAL_INFORMATION_REQUIRED">Action Required</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2 text-end">
+                        <button type="button" class="btn btn-outline-secondary w-100" onclick="resetAppFilters()">
+                            <i class="bi bi-arrow-counterclockwise me-1"></i> Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Applications Table -->
+            <div class="card-custom">
+                <div class="table-responsive">
+                    <table class="table table-portal table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>Reference ID</th>
+                                <th>Scholarship Scheme</th>
+                                <th>Submission Date</th>
+                                <th>Award Amount</th>
+                                <th>Current Status</th>
+                                <th>Last Updated</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="myAppsTableBody">
+                            <tr>
+                                <td colspan="7" class="text-center py-5 text-muted">
+                                    <div class="spinner-border spinner-border-sm text-primary" role="status"></div> Loading applications...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Application Details Modal -->
+    <div class="modal fade" id="appDetailsModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4 shadow">
+                <div class="modal-header border-bottom">
+                    <h5 class="modal-title fw-bold" id="appModalRef">Application Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4" id="appModalBody">
+                    <!-- Dynamic details injected -->
+                </div>
+                <div class="modal-footer border-top">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                    <a href="#" id="modalTrackBtn" class="btn btn-primary-gov">Open Tracking Timeline <i class="bi bi-arrow-right ms-1"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+
+    <script>
+        if (!Auth.requireAuth(['ROLE_STUDENT', 'ROLE_ADMIN'])) {
+            // Handled
+        }
+
+        let myApplications = [];
+
+        async function loadMyApplications() {
+            try {
+                const user = Auth.getUser();
+                if (user) {
+                    document.getElementById('navStudentName').textContent = user.fullName;
+                    document.getElementById('sidebarName').textContent = user.fullName;
+                    document.getElementById('navAvatar').textContent = user.fullName.charAt(0).toUpperCase();
+                    document.getElementById('sidebarAvatar').textContent = user.fullName.charAt(0).toUpperCase();
+                }
+
+                const res = await API.get('/applications/my');
+                myApplications = res.data || [];
+                renderApplications(myApplications);
+            } catch (err) {
+                console.error(err);
+                document.getElementById('myAppsTableBody').innerHTML = `
+                    <tr><td colspan="7" class="text-center text-danger py-4">${err.message || 'Error loading applications'}</td></tr>
+                `;
+            }
+        }
+
+        function renderApplications(list) {
+            const tbody = document.getElementById('myAppsTableBody');
+            if (list.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="text-center py-5 text-muted">
+                            <i class="bi bi-folder2-open fs-1 d-block mb-2 text-secondary"></i>
+                            No applications matching your filters.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = list.map(a => `
+                <tr>
+                    <td class="fw-bold text-primary">${a.applicationReference}</td>
+                    <td>
+                        <div class="fw-semibold text-dark">${a.scholarshipName}</div>
+                        <small class="text-secondary">${a.scholarshipProvider}</small>
+                    </td>
+                    <td>${UI.formatDate(a.applicationDate)}</td>
+                    <td class="fw-bold text-success">${UI.formatCurrency(a.scholarshipAmount)}</td>
+                    <td><span class="badge-status badge-${a.status}">${a.status.replace(/_/g, ' ')}</span></td>
+                    <td class="small text-muted">${UI.formatDate(a.updatedAt)}</td>
+                    <td class="text-end">
+                        <button type="button" class="btn btn-sm btn-outline-secondary me-1" onclick="viewDetails(${a.id})">
+                            <i class="bi bi-eye"></i> Details
+                        </button>
+                        <a href="track-application.html?id=${a.id}" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-geo-alt-fill"></i> Track
+                        </a>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function filterApplications() {
+            const search = document.getElementById('appSearch').value.toLowerCase().trim();
+            const status = document.getElementById('statusFilter').value;
+
+            const filtered = myApplications.filter(a => {
+                const matchesSearch = !search ||
+                    a.applicationReference.toLowerCase().includes(search) ||
+                    a.scholarshipName.toLowerCase().includes(search) ||
+                    (a.remarks && a.remarks.toLowerCase().includes(search));
+
+                const matchesStatus = !status || a.status === status;
+                return matchesSearch && matchesStatus;
+            });
+
+            renderApplications(filtered);
+        }
+
+        function resetAppFilters() {
+            document.getElementById('appSearch').value = '';
+            document.getElementById('statusFilter').value = '';
+            renderApplications(myApplications);
+        }
+
+        async function viewDetails(appId) {
+            try {
+                const res = await API.get(`/applications/${appId}`);
+                const app = res.data;
+
+                document.getElementById('appModalRef').textContent = `Application: ${app.applicationReference}`;
+                document.getElementById('modalTrackBtn').href = `track-application.html?id=${app.id}`;
+
+                const token = Auth.getToken();
+
+                let html = `
+                    <div class="d-flex justify-content-between align-items-center mb-3 p-3 bg-light rounded-3 border">
+                        <div>
+                            <h6 class="fw-bold mb-0">${app.scholarshipName}</h6>
+                            <small class="text-muted">${app.scholarshipProvider}</small>
+                        </div>
+                        <span class="badge-status badge-${app.status}">${app.status.replace(/_/g, ' ')}</span>
+                    </div>
+
+                    <div class="row g-3 small mb-4">
+                        <div class="col-sm-6"><strong>Reference ID:</strong> ${app.applicationReference}</div>
+                        <div class="col-sm-6"><strong>Applied On:</strong> ${UI.formatDateTime(app.applicationDate)}</div>
+                        <div class="col-sm-6"><strong>Scholarship Grant:</strong> <span class="text-success fw-bold">${UI.formatCurrency(app.scholarshipAmount)}</span></div>
+                        <div class="col-sm-6"><strong>Reviewer Assigned:</strong> ${app.reviewerName || 'Under desk assignment'}</div>
+                        <div class="col-sm-6"><strong>Academic Percentage:</strong> ${app.academicPercentage}%</div>
+                        <div class="col-sm-6"><strong>Annual Family Income:</strong> ${UI.formatCurrency(app.annualFamilyIncome)}</div>
+                    </div>
+
+                    ${app.remarks ? `
+                        <div class="alert alert-info small mb-4">
+                            <strong><i class="bi bi-chat-left-dots me-1"></i> Official Remarks:</strong>
+                            <p class="mb-0 mt-1">${app.remarks}</p>
+                        </div>
+                    ` : ''}
+
+                    <h6 class="fw-bold text-dark mb-2">Uploaded Verification Documents:</h6>
+                    <div class="list-group list-group-flush border rounded-3 small">
+                `;
+
+                if (!app.documents || app.documents.length === 0) {
+                    html += `<div class="p-3 text-muted">No documents uploaded with this submission.</div>`;
+                } else {
+                    app.documents.forEach(d => {
+                        html += `
+                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <i class="bi bi-file-earmark-check text-primary me-2 fs-5"></i>
+                                    <strong>${d.documentType}:</strong> <span class="text-secondary">${d.originalFilename}</span>
+                                </div>
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="badge ${d.verificationStatus === 'VERIFIED' ? 'bg-success' : (d.verificationStatus === 'REJECTED' ? 'bg-danger' : 'bg-secondary')}">${d.verificationStatus}</span>
+                                    <a href="${Config.API_BASE_URL}/documents/${d.id}?token=${token}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-download"></i> View
+                                    </a>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+
+                html += `</div>`;
+
+                document.getElementById('appModalBody').innerHTML = html;
+                const modal = new bootstrap.Modal(document.getElementById('appDetailsModal'));
+                modal.show();
+            } catch (err) {
+                UI.showToast(err.message || 'Error fetching application details', 'error');
+            }
+        }
+
+        document.getElementById('appSearch').addEventListener('input', filterApplications);
+        document.getElementById('statusFilter').addEventListener('change', filterApplications);
+
+        document.addEventListener('DOMContentLoaded', loadMyApplications);
+    </script>
+</body>
+</html>

@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scholarship Application – ScholarConnect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-light">
+
+    <!-- Top Gov Bar -->
+    <div class="gov-topbar">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div><i class="bi bi-shield-check text-warning me-1"></i> ScholarConnect Application Desk – Step-by-Step Submission</div>
+            <a href="scholarships.html" class="text-white text-decoration-none small"><i class="bi bi-x-circle me-1"></i> Exit Application</a>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="bg-white border-bottom py-3 shadow-sm">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center gap-2">
+                <div class="brand-icon" style="width: 38px; height: 38px;"><i class="bi bi-mortarboard-fill fs-5"></i></div>
+                <div>
+                    <span class="fw-bold fs-5 text-dark">ScholarConnect</span>
+                    <span class="badge bg-primary ms-2">Form 2026-A</span>
+                </div>
+            </div>
+            <div id="targetSchemeBadge" class="small fw-semibold text-secondary">Loading Scheme...</div>
+        </div>
+    </header>
+
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+
+                <!-- 5-Step Stepper Header -->
+                <div class="stepper-wrapper">
+                    <div class="stepper-item active" id="stepIndicator1">
+                        <div class="step-counter">1</div>
+                        <div class="step-name">Personal</div>
+                    </div>
+                    <div class="stepper-item" id="stepIndicator2">
+                        <div class="step-counter">2</div>
+                        <div class="step-name">Academic</div>
+                    </div>
+                    <div class="stepper-item" id="stepIndicator3">
+                        <div class="step-counter">3</div>
+                        <div class="step-name">Financial</div>
+                    </div>
+                    <div class="stepper-item" id="stepIndicator4">
+                        <div class="step-counter">4</div>
+                        <div class="step-name">Documents</div>
+                    </div>
+                    <div class="stepper-item" id="stepIndicator5">
+                        <div class="step-counter">5</div>
+                        <div class="step-name">Review & Submit</div>
+                    </div>
+                </div>
+
+                <!-- Form Card -->
+                <div class="card shadow-sm border-0 rounded-4 p-4 p-md-5 bg-white">
+                    <div id="applyAlert" class="alert alert-danger d-none" role="alert"></div>
+
+                    <!-- STEP 1: Personal Information -->
+                    <div id="stepSection1">
+                        <h4 class="fw-bold text-dark mb-1">Step 1: Personal Information</h4>
+                        <p class="text-secondary small mb-4">Confirm your identity and residential contact information</p>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small">Full Legal Name</label>
+                                <input type="text" id="step1FullName" class="form-control" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small">Email Address</label>
+                                <input type="email" id="step1Email" class="form-control" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small">Mobile Number</label>
+                                <input type="text" id="step1Mobile" class="form-control" readonly>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-semibold small">Date of Birth</label>
+                                <input type="date" id="step1Dob" class="form-control" readonly>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-semibold small">Gender</label>
+                                <input type="text" id="step1Gender" class="form-control" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small">Domicile State <span class="text-danger">*</span></label>
+                                <input type="text" id="step1State" class="form-control" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small">District <span class="text-danger">*</span></label>
+                                <input type="text" id="step1District" class="form-control" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-semibold small">Permanent Address <span class="text-danger">*</span></label>
+                                <textarea id="step1Address" class="form-control" rows="2" required></textarea>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end mt-4 pt-3 border-top">
+                            <button type="button" class="btn btn-primary-gov px-4" onclick="goToStep(2)">
+                                Next: Academic Info <i class="bi bi-arrow-right ms-1"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 2: Academic Information -->
+                    <div id="stepSection2" class="d-none">
+                        <h4 class="fw-bold text-dark mb-1">Step 2: Academic Information</h4>
+                        <p class="text-secondary small mb-4">Provide details regarding your current institute and past performance</p>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small">College / Institute Name <span class="text-danger">*</span></label>
+                                <input type="text" id="step2College" class="form-control" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small">University / Affiliation Board</label>
+                                <input type="text" id="step2University" class="form-control">
+                            </div>
+                            <div class="col-md-5">
+                                <label class="form-label fw-semibold small">Current Course / Degree <span class="text-danger">*</span></label>
+                                <input type="text" id="step2Course" class="form-control" placeholder="e.g. B.Tech Computer Engineering" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-semibold small">Current Year of Study <span class="text-danger">*</span></label>
+                                <select id="step2Year" class="form-select" required>
+                                    <option value="1">1st Year</option>
+                                    <option value="2">2nd Year</option>
+                                    <option value="3">3rd Year</option>
+                                    <option value="4">4th Year</option>
+                                    <option value="5">5th Year</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-semibold small">Previous Examination Percentage (%) <span class="text-danger">*</span></label>
+                                <input type="number" id="step2Percentage" class="form-control" step="0.01" min="0" max="100" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small">Previous Examination Year</label>
+                                <input type="text" id="step2ExamYear" class="form-control" value="2025">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small">University Roll / Registration Number</label>
+                                <input type="text" id="step2RollNo" class="form-control" placeholder="e.g. 21BCE0492">
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4 pt-3 border-top">
+                            <button type="button" class="btn btn-outline-secondary px-4" onclick="goToStep(1)">
+                                <i class="bi bi-arrow-left me-1"></i> Previous
+                            </button>
+                            <button type="button" class="btn btn-primary-gov px-4" onclick="goToStep(3)">
+                                Next: Financial Info <i class="bi bi-arrow-right ms-1"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 3: Financial & Category -->
+                    <div id="stepSection3" class="d-none">
+                        <h4 class="fw-bold text-dark mb-1">Step 3: Financial & Category Standing</h4>
+                        <p class="text-secondary small mb-4">Household annual income declaration for means verification</p>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small">Social Category <span class="text-danger">*</span></label>
+                                <select id="step3Category" class="form-select" required>
+                                    <option value="General">General</option>
+                                    <option value="OBC">OBC (Other Backward Class)</option>
+                                    <option value="SC">SC (Scheduled Caste)</option>
+                                    <option value="ST">ST (Scheduled Tribe)</option>
+                                    <option value="EWS">EWS</option>
+                                    <option value="Minority">Minority Community</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small">Annual Family Income (₹) <span class="text-danger">*</span></label>
+                                <input type="number" id="step3Income" class="form-control" min="0" required>
+                                <small class="text-muted" style="font-size: 0.72rem;">Must match the revenue income certificate exactly</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small">Income Certificate Issuing Authority</label>
+                                <input type="text" id="step3IncomeAuthority" class="form-control" placeholder="e.g. Tahsildar / Sub-Divisional Magistrate">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small">Certificate Issue Date</label>
+                                <input type="date" id="step3IncomeDate" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4 pt-3 border-top">
+                            <button type="button" class="btn btn-outline-secondary px-4" onclick="goToStep(2)">
+                                <i class="bi bi-arrow-left me-1"></i> Previous
+                            </button>
+                            <button type="button" class="btn btn-primary-gov px-4" onclick="goToStep(4)">
+                                Next: Document Upload <i class="bi bi-arrow-right ms-1"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 4: Document Upload -->
+                    <div id="stepSection4" class="d-none">
+                        <h4 class="fw-bold text-dark mb-1">Step 4: Document Upload</h4>
+                        <p class="text-secondary small mb-4">Attach verified proof documents (PDF, JPG, PNG; max 10MB each)</p>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="p-3 border rounded-3 bg-light">
+                                    <label class="form-label fw-semibold small mb-1">
+                                        <i class="bi bi-person-vcard text-primary me-1"></i> Aadhaar / Govt ID Proof <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="file" id="fileAadhaar" class="form-control form-control-sm" accept=".pdf,.png,.jpg,.jpeg">
+                                    <div class="small text-muted mt-1" id="fileStatusAadhaar">Attached demo document: Aadhaar_Proof.pdf</div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="p-3 border rounded-3 bg-light">
+                                    <label class="form-label fw-semibold small mb-1">
+                                        <i class="bi bi-cash-coin text-success me-1"></i> Income Certificate <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="file" id="fileIncome" class="form-control form-control-sm" accept=".pdf,.png,.jpg,.jpeg">
+                                    <div class="small text-muted mt-1" id="fileStatusIncome">Attached demo document: Income_Cert.pdf</div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="p-3 border rounded-3 bg-light">
+                                    <label class="form-label fw-semibold small mb-1">
+                                        <i class="bi bi-file-earmark-ruled text-warning me-1"></i> Previous Academic Marksheet <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="file" id="fileMarksheet" class="form-control form-control-sm" accept=".pdf,.png,.jpg,.jpeg">
+                                    <div class="small text-muted mt-1" id="fileStatusMarksheet">Attached demo document: Marksheet_Prev.pdf</div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="p-3 border rounded-3 bg-light">
+                                    <label class="form-label fw-semibold small mb-1">
+                                        <i class="bi bi-building-check text-info me-1"></i> College Bonafide Certificate <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="file" id="fileBonafide" class="form-control form-control-sm" accept=".pdf,.png,.jpg,.jpeg">
+                                    <div class="small text-muted mt-1" id="fileStatusBonafide">Attached demo document: Bonafide_College.pdf</div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="p-3 border rounded-3 bg-light">
+                                    <label class="form-label fw-semibold small mb-1">
+                                        <i class="bi bi-card-text text-secondary me-1"></i> Caste Certificate (If Applicable)
+                                    </label>
+                                    <input type="file" id="fileCaste" class="form-control form-control-sm" accept=".pdf,.png,.jpg,.jpeg">
+                                    <div class="small text-muted mt-1" id="fileStatusCaste">Optional for General category</div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="p-3 border rounded-3 bg-light">
+                                    <label class="form-label fw-semibold small mb-1">
+                                        <i class="bi bi-bank text-primary me-1"></i> Bank Passbook / Cancelled Cheque
+                                    </label>
+                                    <input type="file" id="fileBank" class="form-control form-control-sm" accept=".pdf,.png,.jpg,.jpeg">
+                                    <div class="small text-muted mt-1" id="fileStatusBank">Attached demo document: Passbook_Bank.pdf</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4 pt-3 border-top">
+                            <button type="button" class="btn btn-outline-secondary px-4" onclick="goToStep(3)">
+                                <i class="bi bi-arrow-left me-1"></i> Previous
+                            </button>
+                            <button type="button" class="btn btn-primary-gov px-4" onclick="goToStep(5)">
+                                Next: Review & Submit <i class="bi bi-arrow-right ms-1"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 5: Review & Submit -->
+                    <div id="stepSection5" class="d-none">
+                        <h4 class="fw-bold text-dark mb-1">Step 5: Review & Submit Application</h4>
+                        <p class="text-secondary small mb-4">Carefully review all submitted parameters before final submission</p>
+
+                        <!-- Review Table -->
+                        <div class="bg-light p-4 rounded-3 border mb-4">
+                            <h6 class="fw-bold text-primary mb-3">1. Scheme & Candidate Snapshot</h6>
+                            <div class="row g-2 small mb-3">
+                                <div class="col-sm-6"><strong>Applying For:</strong> <span id="revSchemeName">--</span></div>
+                                <div class="col-sm-6"><strong>Candidate Name:</strong> <span id="revFullName">--</span></div>
+                                <div class="col-sm-6"><strong>Email:</strong> <span id="revEmail">--</span></div>
+                                <div class="col-sm-6"><strong>Mobile:</strong> <span id="revMobile">--</span></div>
+                                <div class="col-sm-6"><strong>Domicile:</strong> <span id="revState">--</span></div>
+                                <div class="col-sm-6"><strong>Social Category:</strong> <span id="revCategory">--</span></div>
+                            </div>
+
+                            <h6 class="fw-bold text-primary mb-3 border-top pt-3">2. Academic & Financial Declared</h6>
+                            <div class="row g-2 small mb-3">
+                                <div class="col-sm-6"><strong>College:</strong> <span id="revCollege">--</span></div>
+                                <div class="col-sm-6"><strong>Course & Year:</strong> <span id="revCourseYear">--</span></div>
+                                <div class="col-sm-6"><strong>Exam Percentage:</strong> <span class="fw-bold text-primary" id="revPercentage">--</span></div>
+                                <div class="col-sm-6"><strong>Annual Family Income:</strong> <span class="fw-bold text-success" id="revIncome">--</span></div>
+                            </div>
+
+                            <h6 class="fw-bold text-primary mb-3 border-top pt-3">3. Documents Attached</h6>
+                            <div class="small text-muted" id="revDocsSummary">
+                                <i class="bi bi-check-circle text-success me-1"></i> Standard verification documents ready for scrutiny.
+                            </div>
+                        </div>
+
+                        <!-- Remarks Box -->
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold small">Special Remarks / Extenuating Circumstances (Optional)</label>
+                            <textarea id="appRemarks" class="form-control" rows="2" placeholder="Any additional notes for the administrative reviewer..."></textarea>
+                        </div>
+
+                        <!-- Declaration -->
+                        <div class="form-check p-3 bg-white rounded-3 border mb-4">
+                            <input class="form-check-input ms-0 me-2" type="checkbox" id="finalDeclaration" checked required>
+                            <label class="form-check-label small text-secondary" for="finalDeclaration">
+                                <strong>Declaration:</strong> I solemnly affirm that all details submitted in this application are genuine and correspond to my authentic certificates. I understand that misrepresentation of percentage or family income will lead to immediate rejection.
+                            </label>
+                        </div>
+
+                        <div class="d-flex justify-content-between pt-3 border-top">
+                            <button type="button" class="btn btn-outline-secondary px-4" onclick="goToStep(4)">
+                                <i class="bi bi-arrow-left me-1"></i> Previous
+                            </button>
+                            <button type="button" id="submitAppBtn" class="btn btn-primary-gov btn-lg px-5 fw-bold" onclick="submitFinalApplication()">
+                                <span id="submitBtnText"><i class="bi bi-send-check me-2"></i> Submit Application</span>
+                                <span id="submitBtnSpinner" class="spinner-border spinner-border-sm d-none" role="status"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Submission Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4 shadow text-center p-4">
+                <div class="modal-body">
+                    <div class="stat-icon success mx-auto mb-3" style="width: 70px; height: 70px; font-size: 2.5rem;">
+                        <i class="bi bi-check-circle-fill"></i>
+                    </div>
+                    <h4 class="fw-bold text-dark mb-1">Application Submitted!</h4>
+                    <p class="text-secondary small mb-3">Your scholarship application has been registered successfully with reference number:</p>
+                    <div class="bg-light p-3 rounded-3 border mb-3">
+                        <span class="fs-4 fw-bold text-primary" id="successRefNumber">SC-2026-XXXXX</span>
+                    </div>
+                    <p class="text-muted small">An audit record has been stored in MySQL and queued for administrative reviewer assignment.</p>
+                    <div class="d-flex gap-2 justify-content-center mt-4">
+                        <a href="student-dashboard.html" class="btn btn-outline-secondary">Go to Dashboard</a>
+                        <a href="#" id="trackNowBtn" class="btn btn-primary-gov">Track Application <i class="bi bi-arrow-right ms-1"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+
+    <script>
+        if (!Auth.requireAuth(['ROLE_STUDENT', 'ROLE_ADMIN'])) {
+            // Handled
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const scholarshipId = urlParams.get('scholarshipId');
+        let scholarshipData = null;
+        let studentProfile = null;
+        let currentStep = 1;
+
+        async function initForm() {
+            if (!scholarshipId) {
+                alert('No scholarship specified for application. Please select a scholarship.');
+                window.location.href = 'scholarships.html';
+                return;
+            }
+
+            try {
+                // Fetch Scholarship details
+                const schRes = await API.get(`/scholarships/${scholarshipId}`);
+                scholarshipData = schRes.data;
+                document.getElementById('targetSchemeBadge').innerHTML = `
+                    <span class="text-dark">Applying:</span> <span class="text-primary">${scholarshipData.scholarshipName}</span>
+                `;
+
+                // Fetch Student Profile
+                const profRes = await API.get('/student/profile');
+                studentProfile = profRes.data;
+
+                // Prefill Step 1
+                document.getElementById('step1FullName').value = studentProfile.fullName || '';
+                document.getElementById('step1Email').value = studentProfile.email || '';
+                document.getElementById('step1Mobile').value = studentProfile.mobileNumber || '';
+                document.getElementById('step1Dob').value = studentProfile.dateOfBirth || '';
+                document.getElementById('step1Gender').value = studentProfile.gender || 'Not specified';
+                document.getElementById('step1State').value = studentProfile.state || '';
+                document.getElementById('step1District').value = studentProfile.district || '';
+                document.getElementById('step1Address').value = studentProfile.address || '';
+
+                // Prefill Step 2
+                document.getElementById('step2College').value = studentProfile.collegeName || '';
+                document.getElementById('step2University').value = studentProfile.universityName || '';
+                document.getElementById('step2Course').value = studentProfile.course || '';
+                document.getElementById('step2Year').value = studentProfile.currentYear || 3;
+                document.getElementById('step2Percentage').value = studentProfile.academicPercentage || '';
+
+                // Prefill Step 3
+                document.getElementById('step3Category').value = studentProfile.category || 'General';
+                document.getElementById('step3Income').value = studentProfile.annualFamilyIncome || '';
+
+            } catch (err) {
+                console.error(err);
+                UI.showToast(err.message || 'Error loading application form', 'error');
+            }
+        }
+
+        function goToStep(step) {
+            document.getElementById('applyAlert').classList.add('d-none');
+
+            // Validate step before advancing
+            if (step > currentStep) {
+                if (currentStep === 1) {
+                    if (!document.getElementById('step1State').value.trim() ||
+                        !document.getElementById('step1District').value.trim() ||
+                        !document.getElementById('step1Address').value.trim()) {
+                        showAlert('Please fill in State, District, and Address to proceed.');
+                        return;
+                    }
+                } else if (currentStep === 2) {
+                    if (!document.getElementById('step2College').value.trim() ||
+                        !document.getElementById('step2Course').value.trim() ||
+                        !document.getElementById('step2Percentage').value) {
+                        showAlert('Please complete College name, Course, and Academic Percentage.');
+                        return;
+                    }
+                } else if (currentStep === 3) {
+                    if (!document.getElementById('step3Income').value) {
+                        showAlert('Please enter your declared Annual Family Income.');
+                        return;
+                    }
+                }
+            }
+
+            // Hide all steps
+            for (let i = 1; i <= 5; i++) {
+                document.getElementById(`stepSection${i}`).classList.add('d-none');
+                const ind = document.getElementById(`stepIndicator${i}`);
+                ind.classList.remove('active', 'completed');
+                if (i < step) ind.classList.add('completed');
+                if (i === step) ind.classList.add('active');
+            }
+
+            // Show target step
+            document.getElementById(`stepSection${step}`).classList.remove('d-none');
+            currentStep = step;
+
+            if (step === 5) {
+                populateReviewSummary();
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showAlert(msg) {
+            const el = document.getElementById('applyAlert');
+            el.textContent = msg;
+            el.classList.remove('d-none');
+        }
+
+        function populateReviewSummary() {
+            document.getElementById('revSchemeName').textContent = scholarshipData ? scholarshipData.scholarshipName : '--';
+            document.getElementById('revFullName').textContent = document.getElementById('step1FullName').value;
+            document.getElementById('revEmail').textContent = document.getElementById('step1Email').value;
+            document.getElementById('revMobile').textContent = document.getElementById('step1Mobile').value;
+            document.getElementById('revState').textContent = document.getElementById('step1State').value + ', ' + document.getElementById('step1District').value;
+            document.getElementById('revCategory').textContent = document.getElementById('step3Category').value;
+            document.getElementById('revCollege').textContent = document.getElementById('step2College').value;
+            document.getElementById('revCourseYear').textContent = document.getElementById('step2Course').value + ' (Year ' + document.getElementById('step2Year').value + ')';
+            document.getElementById('revPercentage').textContent = document.getElementById('step2Percentage').value + '%';
+            document.getElementById('revIncome').textContent = UI.formatCurrency(document.getElementById('step3Income').value);
+        }
+
+        async function submitFinalApplication() {
+            if (!document.getElementById('finalDeclaration').checked) {
+                showAlert('You must accept the declaration to submit the scholarship application.');
+                return;
+            }
+
+            const btn = document.getElementById('submitAppBtn');
+            const text = document.getElementById('submitBtnText');
+            const spinner = document.getElementById('submitBtnSpinner');
+
+            btn.disabled = true;
+            text.classList.add('d-none');
+            spinner.classList.remove('d-none');
+
+            const payload = {
+                scholarshipId: parseInt(scholarshipId),
+                collegeName: document.getElementById('step2College').value.trim(),
+                universityName: document.getElementById('step2University').value.trim(),
+                course: document.getElementById('step2Course').value.trim(),
+                currentYear: parseInt(document.getElementById('step2Year').value),
+                academicPercentage: parseFloat(document.getElementById('step2Percentage').value),
+                annualFamilyIncome: parseFloat(document.getElementById('step3Income').value),
+                address: document.getElementById('step1Address').value.trim(),
+                remarks: document.getElementById('appRemarks').value.trim(),
+                declarationAccepted: true
+            };
+
+            try {
+                const response = await API.post('/applications', payload);
+                if (response.success && response.data) {
+                    const app = response.data;
+                    document.getElementById('successRefNumber').textContent = app.applicationReference;
+                    document.getElementById('trackNowBtn').href = `track-application.html?id=${app.id}`;
+
+                    const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                    successModal.show();
+                } else {
+                    throw new Error(response.message || 'Submission failed');
+                }
+            } catch (err) {
+                showAlert(err.message || 'Application submission failed. Please verify your eligibility.');
+                btn.disabled = false;
+                text.classList.remove('d-none');
+                spinner.classList.add('d-none');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', initForm);
+    </script>
+</body>
+</html>
