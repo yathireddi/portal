@@ -10,3 +10,4 @@ public class ScholarConnectApplication {
         SpringApplication.run(ScholarConnectApplication.class, args);
     }
 }
+

@@ -34,3 +34,4 @@ public interface ScholarshipRepository extends JpaRepository<Scholarship, Long> 
                                          @Param("state") String state,
                                          @Param("level") String level);
 }
+

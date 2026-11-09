@@ -86,3 +86,4 @@ public class AdminController {
         return ResponseEntity.ok(ApiResponse.success("Application assigned to reviewer", updated));
     }
 }
+

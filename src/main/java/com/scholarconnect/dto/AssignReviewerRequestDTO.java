@@ -22,3 +22,4 @@ public class AssignReviewerRequestDTO {
         this.reviewerId = reviewerId;
     }
 }
+

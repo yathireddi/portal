@@ -56,3 +56,4 @@ public class ApplicationController {
         return ResponseEntity.ok(ApiResponse.success("Application tracking status loaded", tracking));
     }
 }
+

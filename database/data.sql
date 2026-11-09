@@ -114,3 +114,4 @@ VALUES
 (4, 7, 'Application Status Update', 'Your application (Ref: SC-2026-00104) has been rejected. Reason: Annual family income exceeded ceiling threshold.', 1, '2026-01-29 12:10:00'),
 (5, 8, 'Action Required: Re-upload Document', 'Please re-upload a clear gazetted Bonafide Certificate with college stamp for Ref: SC-2026-00105.', 0, '2026-02-15 15:45:00')
 ON DUPLICATE KEY UPDATE title=VALUES(title);
+

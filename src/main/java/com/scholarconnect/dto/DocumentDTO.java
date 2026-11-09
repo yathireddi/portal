@@ -97,3 +97,4 @@ public class DocumentDTO {
         this.verificationStatus = verificationStatus;
     }
 }
+

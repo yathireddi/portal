@@ -339,3 +339,4 @@ When demonstrating this project to professors or examiners:
 
 ## 📄 License
 Academic Project under MIT License. All sample scholarship records are realistic demo simulations designed for educational demonstration.
+

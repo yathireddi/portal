@@ -11,3 +11,4 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     List<Review> findByApplicationIdOrderByReviewedAtDesc(Long applicationId);
     List<Review> findByReviewerIdOrderByReviewedAtDesc(Long reviewerId);
 }
+

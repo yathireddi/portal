@@ -57,3 +57,4 @@ public class ScholarshipController {
         return ResponseEntity.ok(ApiResponse.success("Eligibility evaluated", result));
     }
 }
+

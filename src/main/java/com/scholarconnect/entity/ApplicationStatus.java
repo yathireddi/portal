@@ -9,3 +9,4 @@ public enum ApplicationStatus {
     REJECTED,
     ADDITIONAL_INFORMATION_REQUIRED
 }
+

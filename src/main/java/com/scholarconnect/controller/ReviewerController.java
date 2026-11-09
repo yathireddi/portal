@@ -52,3 +52,4 @@ public class ReviewerController {
         return ResponseEntity.ok(ApiResponse.success("Document verification updated to " + status, doc));
     }
 }
+

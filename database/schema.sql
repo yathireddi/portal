@@ -147,3 +147,4 @@ CREATE TABLE reviews (
     INDEX idx_review_application (application_id),
     INDEX idx_review_reviewer (reviewer_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+

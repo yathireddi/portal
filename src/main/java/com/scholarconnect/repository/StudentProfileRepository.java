@@ -12,3 +12,4 @@ public interface StudentProfileRepository extends JpaRepository<StudentProfile, 
     Optional<StudentProfile> findByUserId(Long userId);
     Optional<StudentProfile> findByUser(User user);
 }
+

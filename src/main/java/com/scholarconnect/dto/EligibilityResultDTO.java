@@ -170,3 +170,4 @@ public class EligibilityResultDTO {
         this.failedConditions = failedConditions;
     }
 }
+

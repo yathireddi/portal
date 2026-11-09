@@ -52,3 +52,4 @@ public class StudentController {
         return ResponseEntity.ok(ApiResponse.success("Applications retrieved successfully", apps));
     }
 }
+

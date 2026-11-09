@@ -82,3 +82,4 @@ public class ApplicationStatusHistoryDTO {
         this.changedAt = changedAt;
     }
 }
+

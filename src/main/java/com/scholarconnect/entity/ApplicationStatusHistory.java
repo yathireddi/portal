@@ -106,3 +106,4 @@ public class ApplicationStatusHistory {
         this.changedAt = changedAt;
     }
 }
+

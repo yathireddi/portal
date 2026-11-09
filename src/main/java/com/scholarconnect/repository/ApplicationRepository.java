@@ -48,3 +48,4 @@ public interface ApplicationRepository extends JpaRepository<Application, Long> 
     @Query("SELECT COUNT(a) FROM Application a WHERE a.student.id = :studentId AND a.status = :status")
     long countByStudentIdAndStatus(@Param("studentId") Long studentId, @Param("status") ApplicationStatus status);
 }
+

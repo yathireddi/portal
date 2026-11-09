@@ -298,3 +298,4 @@ public class ApplicationDTO {
         this.reviews = reviews;
     }
 }
+

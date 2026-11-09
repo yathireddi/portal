@@ -199,3 +199,4 @@ public class RegisterRequest {
         this.address = address;
     }
 }
+

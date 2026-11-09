@@ -14,3 +14,4 @@ const Config = {
 };
 
 window.Config = Config;
+

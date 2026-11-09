@@ -170,3 +170,4 @@ public class StudentProfileDTO {
         this.profileCompletionPercentage = profileCompletionPercentage;
     }
 }
+

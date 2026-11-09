@@ -116,3 +116,4 @@ public class ApplicationRequestDTO {
         this.remarks = remarks;
     }
 }
+

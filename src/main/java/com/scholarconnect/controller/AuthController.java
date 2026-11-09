@@ -49,3 +49,4 @@ public class AuthController {
         return ResponseEntity.ok(ApiResponse.success("User profile fetched", user));
     }
 }
+

@@ -207,3 +207,4 @@ public class Scholarship {
         this.createdAt = createdAt;
     }
 }
+
